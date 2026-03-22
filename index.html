@@ -3,260 +3,197 @@
 <head>
 <meta charset="UTF-8">
 <title>ESSA Deal Management</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&family=DM+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  
-  :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1c2330;
-    --border: #30363d;
-    --border2: #21262d;
-    --text: #e6edf3;
-    --text2: #8b949e;
-    --text3: #6e7681;
-    --gold: #d4a843;
-    --gold2: #b8902e;
-    --green: #3fb950;
-    --red: #f85149;
-    --blue: #58a6ff;
-    --orange: #d29922;
-    --purple: #a371f7;
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    font-size: 14px;
-  }
+/* ── GLOBAL ──────────────────────────────────────────────── */
+body { font-family: 'DM Sans', sans-serif; font-size: 13px; background: #0d1117; color: #e6edf3; min-height: 100vh; }
 
-  .header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 0 24px;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    height: 56px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
+/* ── TOP NAV ─────────────────────────────────────────────── */
+.top-nav {
+  background: #161b22; border-bottom: 1px solid #30363d;
+  padding: 0 20px; height: 52px;
+  display: flex; align-items: center; gap: 28px;
+  position: sticky; top: 0; z-index: 200;
+}
+.nav-logo { font-family: 'Lato', serif; font-size: 17px; color: #d4a843; font-weight: 700; letter-spacing: 1px; white-space: nowrap; }
+.nav-logo span { color: #8b949e; font-size: 12px; font-weight: 400; margin-left: 8px; letter-spacing: 0; }
+.nav-links { display: flex; gap: 2px; }
+.nav-btn { background: none; border: none; color: #8b949e; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.3px; }
+.nav-btn:hover { color: #e6edf3; background: #1c2330; }
+.nav-btn.active { color: #d4a843; background: rgba(212,168,67,0.1); }
 
-  .logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 18px;
-    color: var(--gold);
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  .logo span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; margin-left: 8px; }
+/* ── MAIN CONTENT ────────────────────────────────────────── */
+.main { padding: 20px; max-width: 1500px; margin: 0 auto; }
 
-  .nav { display: flex; gap: 2px; }
-  .nav-btn {
-    background: none; border: none; color: var(--text2);
-    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-    padding: 6px 14px; border-radius: 6px; cursor: pointer;
-    transition: all 0.15s;
-  }
-  .nav-btn:hover { color: var(--text); background: var(--surface2); }
-  .nav-btn.active { color: var(--gold); background: rgba(212,168,67,0.1); }
+/* ── TOOLBAR ─────────────────────────────────────────────── */
+.toolbar { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.search-wrap { position: relative; flex: 1; max-width: 340px; }
+.search-wrap input { width: 100%; background: #161b22; border: 1px solid #30363d; border-radius: 7px; padding: 7px 11px 7px 34px; color: #e6edf3; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; transition: border 0.15s; }
+.search-wrap input:focus { border-color: #d4a843; }
+.search-wrap input::placeholder { color: #6e7681; }
+.search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: #6e7681; font-size: 14px; pointer-events: none; }
+.filter-sel { background: #161b22; border: 1px solid #30363d; border-radius: 7px; padding: 7px 11px; color: #e6edf3; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; cursor: pointer; }
+.filter-sel:focus { border-color: #d4a843; }
+.row-count { font-size: 11px; color: #6e7681; margin-left: auto; }
+.btn { display: inline-flex; align-items: center; gap: 5px; padding: 7px 14px; border-radius: 7px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; border: none; transition: all 0.15s; white-space: nowrap; }
+.btn-gold { background: #d4a843; color: #0d1117; }
+.btn-gold:hover { background: #b8902e; }
+.btn-ghost { background: #161b22; border: 1px solid #30363d; color: #8b949e; }
+.btn-ghost:hover { color: #e6edf3; border-color: #6e7681; }
+.btn-danger { background: rgba(248,81,73,0.12); border: 1px solid rgba(248,81,73,0.3); color: #f85149; }
+.btn-danger:hover { background: rgba(248,81,73,0.22); }
+.btn-sm { padding: 3px 9px; font-size: 11px; border-radius: 5px; }
 
-  .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+/* ── TABLE ───────────────────────────────────────────────── */
+.table-card { background: #161b22; border: 1px solid #30363d; border-radius: 9px; overflow: hidden; }
+table { width: 100%; border-collapse: collapse; }
+thead { background: #1c2330; }
+th { padding: 9px 14px; text-align: left; font-size: 10px; font-weight: 600; letter-spacing: 0.7px; text-transform: uppercase; color: #6e7681; border-bottom: 1px solid #30363d; white-space: nowrap; }
+td { padding: 10px 14px; border-bottom: 1px solid #21262d; font-size: 12px; vertical-align: middle; }
+tr:last-child td { border-bottom: none; }
+tbody tr { transition: background 0.1s; cursor: pointer; }
+tbody tr:hover { background: #1c2330; }
+.mono { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
+.actions-cell { display: flex; gap: 5px; }
 
-  .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+/* ── DEAL BADGES (list view) ─────────────────────────────── */
+.pill { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 600; white-space: nowrap; }
+.p-live { background: rgba(63,185,80,0.15); color: #3fb950; border: 1px solid rgba(63,185,80,0.3); }
+.p-pipeline { background: rgba(88,166,255,0.15); color: #58a6ff; border: 1px solid rgba(88,166,255,0.3); }
+.p-inactive { background: rgba(110,118,129,0.15); color: #6e7681; border: 1px solid rgba(110,118,129,0.3); }
+.p-hold { background: rgba(210,153,34,0.15); color: #d29922; border: 1px solid rgba(210,153,34,0.3); }
+.p-completed { background: rgba(163,113,247,0.15); color: #a371f7; border: 1px solid rgba(163,113,247,0.3); }
 
-  .search-wrap { position: relative; flex: 1; max-width: 360px; }
-  .search-wrap input {
-    width: 100%; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 12px 8px 36px;
-    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
-    outline: none; transition: border 0.15s;
-  }
-  .search-wrap input:focus { border-color: var(--gold); }
-  .search-wrap input::placeholder { color: var(--text3); }
-  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 14px; }
+/* ── MODAL ───────────────────────────────────────────────── */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 20px; backdrop-filter: blur(4px); }
+.modal { background: #161b22; border: 1px solid #30363d; border-radius: 11px; width: 100%; max-width: 580px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 56px rgba(0,0,0,0.5); }
+.modal-hd { padding: 18px 22px 14px; border-bottom: 1px solid #30363d; display: flex; align-items: center; justify-content: space-between; }
+.modal-title { font-family: 'Lato', sans-serif; font-size: 18px; font-weight: 700; color: #e6edf3; }
+.modal-x { background: none; border: none; color: #6e7681; font-size: 20px; cursor: pointer; padding: 3px; border-radius: 4px; line-height: 1; }
+.modal-x:hover { color: #e6edf3; background: #1c2330; }
+.modal-bd { padding: 18px 22px; }
+.modal-ft { padding: 14px 22px; border-top: 1px solid #30363d; display: flex; gap: 9px; justify-content: flex-end; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.fg { display: flex; flex-direction: column; gap: 5px; }
+.fg.full { grid-column: 1/-1; }
+label { font-size: 11px; font-weight: 600; color: #8b949e; letter-spacing: 0.2px; }
+.fc { background: #1c2330; border: 1px solid #30363d; border-radius: 6px; padding: 7px 10px; color: #e6edf3; font-family: 'DM Sans', sans-serif; font-size: 12px; outline: none; transition: border 0.15s; width: 100%; }
+.fc:focus { border-color: #d4a843; }
+textarea.fc { resize: vertical; min-height: 70px; }
 
-  .filter-select {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 8px; padding: 8px 12px; color: var(--text);
-    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
-    cursor: pointer;
-  }
-  .filter-select:focus { border-color: var(--gold); }
+/* ── LOADING / EMPTY ─────────────────────────────────────── */
+.loading { padding: 40px 0; text-align: center; color: #6e7681; font-size: 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { width: 22px; height: 22px; border: 2px solid #30363d; border-top-color: #d4a843; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 10px; }
+.empty { padding: 50px 0; text-align: center; color: #6e7681; font-size: 12px; }
 
-  .btn {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 8px 16px; border-radius: 8px; font-family: 'DM Sans', sans-serif;
-    font-size: 13px; font-weight: 500; cursor: pointer; border: none;
-    transition: all 0.15s; white-space: nowrap;
-  }
-  .btn-primary { background: var(--gold); color: #0d1117; }
-  .btn-primary:hover { background: var(--gold2); }
-  .btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--text2); }
-  .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
-  .btn-danger { background: rgba(248,81,73,0.15); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
-  .btn-danger:hover { background: rgba(248,81,73,0.25); }
-  .btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 6px; }
+/* ── CONFIRM ─────────────────────────────────────────────── */
+.confirm-ov { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; z-index: 1100; backdrop-filter: blur(2px); }
+.confirm-box { background: #161b22; border: 1px solid #30363d; border-radius: 9px; padding: 22px; max-width: 360px; width: 90%; box-shadow: 0 18px 48px rgba(0,0,0,0.5); }
+.confirm-title { font-size: 15px; font-weight: 600; margin-bottom: 7px; }
+.confirm-msg { font-size: 12px; color: #8b949e; margin-bottom: 18px; line-height: 1.5; }
+.confirm-btns { display: flex; gap: 9px; justify-content: flex-end; }
 
-  .table-wrap {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
+/* ── TOAST ───────────────────────────────────────────────── */
+.toast { position: fixed; bottom: 22px; right: 22px; background: #1c2330; border: 1px solid #30363d; border-radius: 7px; padding: 11px 16px; font-size: 12px; z-index: 2000; box-shadow: 0 8px 28px rgba(0,0,0,0.4); animation: slideUp 0.3s ease; }
+.toast.success { border-color: rgba(63,185,80,0.5); color: #3fb950; }
+.toast.error { border-color: rgba(248,81,73,0.5); color: #f85149; }
+@keyframes slideUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-  table { width: 100%; border-collapse: collapse; }
-  thead { background: var(--surface2); }
-  th {
-    padding: 10px 16px; text-align: left;
-    font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
-    text-transform: uppercase; color: var(--text3);
-    border-bottom: 1px solid var(--border);
-    white-space: nowrap;
-  }
-  td {
-    padding: 11px 16px; border-bottom: 1px solid var(--border2);
-    font-size: 13px; color: var(--text);
-    vertical-align: middle;
-  }
-  tr:last-child td { border-bottom: none; }
-  tbody tr { transition: background 0.1s; }
-  tbody tr:hover { background: var(--surface2); }
-  tbody tr.clickable { cursor: pointer; }
+/* ════════════════════════════════════════════════════════════
+   DEAL DETAIL — ZOHO STYLE
+   ════════════════════════════════════════════════════════════ */
+.detail-wrap { font-family: 'Lato', sans-serif; }
 
-  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+/* Back button */
+.back-btn { display: inline-flex; align-items: center; gap: 7px; background: none; border: none; color: #8b949e; font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; padding: 4px 0; margin-bottom: 16px; transition: color 0.15s; }
+.back-btn:hover { color: #d4a843; }
 
-  .badge {
-    display: inline-flex; align-items: center;
-    padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
-    white-space: nowrap;
-  }
-  .badge-live { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
-  .badge-pipeline { background: rgba(88,166,255,0.15); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
-  .badge-inactive { background: rgba(110,118,129,0.15); color: var(--text3); border: 1px solid rgba(110,118,129,0.3); }
-  .badge-hold { background: rgba(210,153,34,0.15); color: var(--orange); border: 1px solid rgba(210,153,34,0.3); }
-  .badge-completed { background: rgba(163,113,247,0.15); color: var(--purple); border: 1px solid rgba(163,113,247,0.3); }
-  .badge-inplay { background: rgba(63,185,80,0.15); color: var(--green); }
-  .badge-rejected { background: rgba(248,81,73,0.15); color: var(--red); }
-  .badge-signed { background: rgba(63,185,80,0.1); color: var(--green); }
-  .badge-notsigned { background: rgba(110,118,129,0.1); color: var(--text3); }
+/* Deal header */
+.dh { background: linear-gradient(180deg, #4a5f8f 0%, #2c3d6b 100%); padding: 12px 18px 14px; display: flex; align-items: flex-start; gap: 0; border-radius: 6px 6px 0 0; }
+.dh-left { flex: 0 0 auto; min-width: 240px; }
+.dh-info-label { color: #b8c8e8; font-size: 10px; font-style: italic; font-weight: 300; margin-bottom: 3px; }
+.dh-title { color: #fff; font-size: 24px; font-weight: 300; font-style: italic; line-height: 1.1; }
+.dh-center { flex: 1; padding: 2px 0 0 36px; }
+.dh-alt-label { color: #b8c8e8; font-size: 10px; margin-bottom: 2px; }
+.dh-alt-val { color: #c8d8f0; font-size: 11px; }
+.dh-right { flex: 0 0 auto; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.dh-meta { display: flex; gap: 26px; text-align: right; }
+.dh-meta-item { display: flex; flex-direction: column; gap: 1px; }
+.dh-meta-label { color: #b8c8e8; font-size: 9px; }
+.dh-meta-val { color: #fff; font-size: 11px; font-weight: 700; }
+.dh-actions { display: flex; align-items: center; gap: 7px; }
+.dh-btn-edit { background: linear-gradient(180deg,#f5c842 0%,#e8b820 100%); color: #333; border: 1px solid #c8980a; padding: 4px 16px; border-radius: 3px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'Lato',sans-serif; }
+.dh-btn-clone { background: linear-gradient(180deg,#e86090 0%,#d84070 100%); color: #fff; border: 1px solid #b83060; padding: 4px 14px; border-radius: 3px; font-size: 11px; font-weight: 700; cursor: pointer; font-family: 'Lato',sans-serif; }
+.essa-logo { background: #fff; border-radius: 3px; padding: 4px 8px; display: flex; flex-direction: column; align-items: center; min-width: 66px; }
+.essa-dots { display: flex; gap: 3px; margin-bottom: 2px; }
+.essa-dot { width: 7px; height: 7px; border-radius: 50%; }
+.essa-dot.g { background: #4ab848; }
+.essa-dot.gy { background: #ccc; }
+.essa-name { font-size: 9px; font-weight: 900; letter-spacing: 2px; color: #2c3e6b; }
+.essa-sub { font-size: 6px; letter-spacing: 1.5px; color: #999; }
 
-  .modal-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1000; padding: 20px;
-    backdrop-filter: blur(4px);
-  }
-  .modal {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 12px; width: 100%; max-width: 600px;
-    max-height: 90vh; overflow-y: auto;
-    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-  }
-  .modal-header {
-    padding: 20px 24px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .modal-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
-  .modal-close {
-    background: none; border: none; color: var(--text3);
-    font-size: 20px; cursor: pointer; padding: 4px;
-    line-height: 1; border-radius: 4px;
-  }
-  .modal-close:hover { color: var(--text); background: var(--surface2); }
-  .modal-body { padding: 20px 24px; }
-  .modal-footer {
-    padding: 16px 24px; border-top: 1px solid var(--border);
-    display: flex; gap: 10px; justify-content: flex-end;
-  }
+/* Tabs */
+.d-tabs { background: #8c1a2a; display: flex; border-radius: 0; }
+.d-tab { padding: 8px 15px; color: #e8b0bb; font-size: 11px; font-weight: 700; cursor: pointer; border-right: 1px solid #701525; white-space: nowrap; display: flex; align-items: center; gap: 4px; letter-spacing: 0.2px; }
+.d-tab:hover { background: #a0202f; color: #fff; }
+.d-tab.active { background: #c02535; color: #fff; }
+.d-tab-badge { background: rgba(255,255,255,0.22); color: #fff; border-radius: 8px; padding: 0px 5px; font-size: 9px; font-weight: 700; }
 
-  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-  .form-group.full { grid-column: 1 / -1; }
-  label { font-size: 12px; font-weight: 500; color: var(--text2); letter-spacing: 0.3px; }
-  .form-control {
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 7px; padding: 8px 11px;
-    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
-    outline: none; transition: border 0.15s; width: 100%;
-  }
-  .form-control:focus { border-color: var(--gold); }
-  textarea.form-control { resize: vertical; min-height: 80px; }
+/* Summary row */
+.d-summary { background: #f4f4f4; display: flex; align-items: stretch; border-bottom: 2px solid #ccc; }
+.d-summary-label { background: #2e7070; color: #fff; padding: 7px 12px; font-size: 11px; font-weight: 700; display: flex; align-items: center; min-width: 105px; }
+.d-summary-val { padding: 7px 13px; font-size: 12px; color: #444; flex: 1; display: flex; align-items: center; background: #fff; border-left: 1px solid #ddd; }
 
-  .back-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: none; border: none; color: var(--text2);
-    font-family: 'DM Sans', sans-serif; font-size: 13px;
-    cursor: pointer; padding: 4px 0; margin-bottom: 20px;
-    transition: color 0.15s;
-  }
-  .back-btn:hover { color: var(--gold); }
+/* Two-column panels */
+.d-panels { display: flex; gap: 10px; padding: 10px 10px 0; background: #dde0e8; }
+.d-panel { background: #fff; border: 1px solid #c0c4cc; border-radius: 2px; flex: 1; overflow: hidden; }
+.d-panel.wide { flex: 2.2; }
+.d-panel-hd { background: linear-gradient(180deg,#4a5f8f 0%,#2c3d6b 100%); color: #fff; padding: 7px 12px; font-size: 11px; font-weight: 700; }
 
-  .deal-header {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 24px; margin-bottom: 20px;
-  }
-  .deal-title { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 4px; }
-  .deal-meta { color: var(--text2); font-size: 13px; margin-bottom: 16px; }
-  .deal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
-  .deal-stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px; }
-  .deal-stat-value { font-size: 14px; color: var(--text); font-weight: 500; }
+.d-field-row { display: flex; min-height: 29px; border-bottom: 1px solid #eef0f5; }
+.d-field-row:last-child { border-bottom: none; }
+.d-fk { color: #fff; padding: 5px 9px; font-size: 10px; font-weight: 700; display: flex; align-items: center; min-width: 132px; max-width: 132px; line-height: 1.3; }
+.fk-green { background: #2e7a50; }
+.fk-teal { background: #2e7070; }
+.fk-navy { background: #2e5080; }
+.d-fv { padding: 5px 9px; font-size: 11px; color: #333; flex: 1; display: flex; align-items: center; background: #fff; }
+.dd-cols { display: flex; }
+.dd-col { flex: 1; border-right: 1px solid #eef0f5; }
+.dd-col:last-child { border-right: none; }
 
-  .section-heading {
-    font-size: 11px; font-weight: 600; letter-spacing: 1px;
-    text-transform: uppercase; color: var(--text3);
-    margin-bottom: 12px; padding-bottom: 8px;
-    border-bottom: 1px solid var(--border);
-  }
+/* Zoho-style badges */
+.zb { display: inline-flex; align-items: center; justify-content: center; padding: 2px 10px; border-radius: 10px; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.zb-pipeline { background: #e8e8e8; color: #555; border: 1px solid #bbb; }
+.zb-green { background: #3daa44; color: #fff; }
+.zb-orange { background: #f59820; color: #fff; }
+.zb-red { background: #d84040; color: #fff; }
+.zb-fee { background: #e89020; color: #fff; font-size: 9px; padding: 1px 6px; border-radius: 7px; }
+.d-link { color: #2060c0; text-decoration: none; font-size: 11px; }
+.d-link:hover { text-decoration: underline; }
 
-  .empty { padding: 60px 0; text-align: center; color: var(--text3); font-size: 13px; }
-  .empty-icon { font-size: 32px; margin-bottom: 12px; }
+/* Investors table */
+.d-inv-wrap { margin: 10px; background: #fff; border: 1px solid #c0c4cc; border-radius: 2px; overflow: hidden; }
+.d-inv-hd { background: linear-gradient(180deg,#4a5f8f 0%,#2c3d6b 100%); color: #fff; padding: 7px 12px; font-size: 11px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.d-inv-count { background: rgba(255,255,255,0.2); border-radius: 9px; padding: 0px 6px; font-size: 10px; font-weight: 700; }
+.d-add-btn { background: #f59820; color: #fff; border: none; border-radius: 3px; width: 21px; height: 21px; font-size: 17px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; line-height: 1; padding-bottom: 1px; }
+table.d-inv { width: 100%; border-collapse: collapse; font-size: 11px; }
+table.d-inv thead tr { background: #8c1a2a; }
+table.d-inv th { color: #fff; padding: 7px 8px; text-align: left; font-size: 10px; font-weight: 700; white-space: nowrap; border-right: 1px solid rgba(255,255,255,0.15); }
+table.d-inv th:last-child { border-right: none; }
+table.d-inv tbody tr { border-bottom: 1px solid #eef0f5; cursor: default; }
+table.d-inv tbody tr:nth-child(even) { background: #f9fafc; }
+table.d-inv tbody tr:hover { background: #eef2fb; }
+table.d-inv td { padding: 6px 8px; vertical-align: middle; border-right: 1px solid #eef0f5; color: #333; }
+table.d-inv td:last-child { border-right: none; }
+.trunc { max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block; }
+.d-bg { background: #dde0e8; border-radius: 0 0 6px 6px; }
 
-  .loading { padding: 40px 0; text-align: center; color: var(--text3); }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .spinner {
-    width: 24px; height: 24px; border: 2px solid var(--border);
-    border-top-color: var(--gold); border-radius: 50%;
-    animation: spin 0.7s linear infinite; margin: 0 auto 12px;
-  }
-
-  .toast {
-    position: fixed; bottom: 24px; right: 24px;
-    background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 8px; padding: 12px 18px;
-    font-size: 13px; z-index: 2000;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-    animation: slideUp 0.3s ease;
-  }
-  .toast.success { border-color: rgba(63,185,80,0.5); color: var(--green); }
-  .toast.error { border-color: rgba(248,81,73,0.5); color: var(--red); }
-  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-  .row-count { font-size: 12px; color: var(--text3); margin-left: auto; }
-  .actions-cell { display: flex; gap: 6px; }
-
-  .confirm-overlay {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 1100; backdrop-filter: blur(2px);
-  }
-  .confirm-box {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 10px; padding: 24px; max-width: 380px; width: 90%;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-  }
-  .confirm-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
-  .confirm-msg { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.5; }
-  .confirm-btns { display: flex; gap: 10px; justify-content: flex-end; }
-
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #30363d; border-radius: 3px; }
 </style>
 </head>
 <body>
@@ -265,506 +202,502 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-
 <script type="text/babel">
 const { useState, useEffect, useCallback } = React;
+const R = React.createElement;
 
-const SUPABASE_URL = 'https://lcetrvbxpyngfxdidiyn.supabase.co';
-const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjZXRydmJ4cHluZ2Z4ZGlkaXluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwOTY5NTgsImV4cCI6MjA4OTY3Mjk1OH0.tvpCi6RrDDu16yr-kybZ1ZYAvHso_WgwTZuGrxLNsX8';
+const SB_URL = 'https://lcetrvbxpyngfxdidiyn.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjZXRydmJ4cHluZ2Z4ZGlkaXluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwOTY5NTgsImV4cCI6MjA4OTY3Mjk1OH0.tvpCi6RrDDu16yr-kybZ1ZYAvHso_WgwTZuGrxLNsX8';
+const hdrs = { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
 
-const headers = {
-  'apikey': ANON_KEY,
-  'Authorization': `Bearer ${ANON_KEY}`,
-  'Content-Type': 'application/json',
-  'Prefer': 'return=representation'
-};
-
-async function sbFetch(path, options = {}) {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1${path}`, { ...options, headers: { ...headers, ...(options.headers || {}) } });
-  if (!res.ok) { const err = await res.text(); throw new Error(err); }
-  if (res.status === 204) return null;
-  return res.json();
+async function sb(path, opts = {}) {
+  const r = await fetch(`${SB_URL}/rest/v1${path}`, { ...opts, headers: { ...hdrs, ...(opts.headers||{}) } });
+  if (!r.ok) throw new Error(await r.text());
+  if (r.status === 204) return null;
+  return r.json();
 }
 
-function stageBadge(stage) {
-  const map = { 'Live': 'badge-live', 'Pipeline': 'badge-pipeline', 'Inactive': 'badge-inactive', 'On-Hold': 'badge-hold', 'Completed': 'badge-completed' };
-  return React.createElement('span', { className: `badge ${map[stage] || 'badge-inactive'}` }, stage || '—');
+// ── Helpers ──────────────────────────────────────────────
+const clean = v => (!v || v === 'NaN') ? null : v;
+
+function stagePill(stage) {
+  const map = { 'Live':'p-live','Pipeline':'p-pipeline','Inactive':'p-inactive','On-Hold':'p-hold','Completed':'p-completed' };
+  return R('span',{className:`pill ${map[stage]||'p-inactive'}`}, stage||'—');
 }
 
-function fundStatusBadge(status) {
-  if (!status || status === 'NaN') return React.createElement('span', { className: 'badge badge-inactive' }, '—');
-  const cls = status.includes('In Play') || status.includes('Offer') ? 'badge-inplay' :
-               status.includes('Rejected') ? 'badge-rejected' :
-               status.includes('Conflicted') ? 'badge-rejected' : 'badge-inactive';
-  return React.createElement('span', { className: `badge ${cls}` }, status);
+function Toast({msg,type,onDone}) {
+  useEffect(()=>{ const t=setTimeout(onDone,3000); return ()=>clearTimeout(t); },[]);
+  return R('div',{className:`toast ${type}`}, msg);
 }
-
-function feeBadge(fee) {
-  if (!fee || fee === 'NaN' || fee === 'No') return React.createElement('span', { className: 'badge badge-notsigned' }, 'Not Signed');
-  if (fee === 'Signed') return React.createElement('span', { className: 'badge badge-signed' }, '✓ Signed');
-  return React.createElement('span', { className: 'badge badge-hold' }, fee);
-}
-
-function Toast({ msg, type, onDone }) {
-  useEffect(() => { const t = setTimeout(onDone, 3000); return () => clearTimeout(t); }, []);
-  return React.createElement('div', { className: `toast ${type}` }, msg);
-}
-
-function ConfirmDialog({ title, msg, onConfirm, onCancel }) {
-  return React.createElement('div', { className: 'confirm-overlay' },
-    React.createElement('div', { className: 'confirm-box' },
-      React.createElement('div', { className: 'confirm-title' }, title),
-      React.createElement('div', { className: 'confirm-msg' }, msg),
-      React.createElement('div', { className: 'confirm-btns' },
-        React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: onCancel }, 'Cancel'),
-        React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: onConfirm }, 'Delete')
+function Confirm({title,msg,onOk,onCancel}) {
+  return R('div',{className:'confirm-ov'},
+    R('div',{className:'confirm-box'},
+      R('div',{className:'confirm-title'},title),
+      R('div',{className:'confirm-msg'},msg),
+      R('div',{className:'confirm-btns'},
+        R('button',{className:'btn btn-ghost btn-sm',onClick:onCancel},'Cancel'),
+        R('button',{className:'btn btn-danger btn-sm',onClick:onOk},'Delete')
       )
     )
   );
 }
 
-const DEAL_STAGES = ['Pipeline', 'Live', 'On-Hold', 'Completed', 'Inactive'];
-const DEAL_FIELDS = [
-  { key: 'deal_name', label: 'Deal Name', required: true },
-  { key: 'stage', label: 'Stage', type: 'select', options: DEAL_STAGES },
-  { key: 'sector', label: 'Sector' },
-  { key: 'country', label: 'Country' },
-  { key: 'vol_eurm', label: 'Volume (€m)' },
-  { key: 'deal_captain_name', label: 'Deal Captain' },
-  { key: 'deal_originator', label: 'Deal Originator' },
-  { key: 'deal_type_situation', label: 'Deal Type / Situation' },
-  { key: 'target_company_name', label: 'Target Company', full: true },
-  { key: 'deal_description', label: 'Description', type: 'textarea', full: true },
-  { key: 'next_steps', label: 'Next Steps', type: 'textarea', full: true },
+// ── DEAL FORM MODAL ───────────────────────────────────────
+const STAGES = ['Pipeline','Live','On-Hold','Completed','Inactive'];
+const DFIELDS = [
+  {k:'deal_name',l:'Deal Name',req:true},{k:'stage',l:'Stage',type:'sel',opts:STAGES},
+  {k:'sector',l:'Sector'},{k:'country',l:'Country'},
+  {k:'vol_eurm',l:'Volume (€m)'},{k:'deal_captain_name',l:'Deal Captain'},
+  {k:'deal_originator',l:'Deal Originator'},{k:'deal_type_situation',l:'Deal Type/Situation'},
+  {k:'target_company_name',l:'Target Company',full:true},
+  {k:'deal_description',l:'Deal Summary',type:'ta',full:true},
+  {k:'next_steps',l:'Next Steps',type:'ta',full:true},
+  {k:'financing_type',l:'Financing Type'},{k:'volume_min_eurm',l:'Volume Min (€m)'},
+  {k:'priority',l:'Priority'},{k:'sponsorship',l:'Sponsored Deal'},
+  {k:'closing_date',l:'Closing Date',type:'date'},{k:'date_logged',l:'Date Logged',type:'date'},
 ];
-
-const INV_STATUS_OPTIONS = ['0 - Rejected','1 - Conflicted (do not approach)','2 - Shortlisted','3 - On Hold','4 - Cleared','5 - Contacted','6 - Pending Signed Agreement(s)','7 - In Play','8 - Offer Submitted'];
-const FEE_STATUS_OPTIONS = ['Not Signed','Signed','Deferred (until offer submitted)'];
-const FEE_SIGNED_OPTIONS = ['No','Yes','Fully Executed','Pending - Documents sent'];
-const AGREEMENT_TYPES = ['Master Level','Project Level','Under Discussion'];
-const BUCKET_OPTIONS = ['Bucket 1','Bucket 1a','Bucket 2','Bucket 3'];
-
-function DealModal({ deal, onClose, onSave, showToast }) {
+function DealModal({deal,onClose,onSave,toast}) {
   const isEdit = !!deal?.id;
-  const [form, setForm] = useState(deal || {});
-  const [saving, setSaving] = useState(false);
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const save = async () => {
-    if (!form.deal_name) { showToast('Deal name is required', 'error'); return; }
+  const [form,setForm] = useState(deal||{});
+  const [saving,setSaving] = useState(false);
+  const set = (k,v) => setForm(f=>({...f,[k]:v}));
+  const save = async()=>{
+    if(!form.deal_name){toast('Deal name required','error');return;}
     setSaving(true);
-    try {
-      if (isEdit) {
-        const { id, ...rest } = form;
-        await sbFetch(`/deals?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ ...rest, modified_time: new Date().toISOString().split('T')[0] }) });
+    try{
+      if(isEdit){
+        const {id,...rest}=form;
+        await sb(`/deals?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({...rest,modified_time:new Date().toISOString().slice(0,10)})});
       } else {
-        const newId = '5090809000' + Date.now();
-        await sbFetch('/deals', { method: 'POST', body: JSON.stringify({ ...form, id: newId, created_time: new Date().toISOString().split('T')[0], modified_time: new Date().toISOString().split('T')[0] }) });
+        await sb('/deals',{method:'POST',body:JSON.stringify({...form,id:'5090809000'+Date.now(),created_time:new Date().toISOString().slice(0,10),modified_time:new Date().toISOString().slice(0,10)})});
       }
       onSave();
-    } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
+    }catch(e){toast('Save failed: '+e.message,'error');}
     setSaving(false);
   };
-
-  return React.createElement('div', { className: 'modal-overlay', onClick: e => e.target === e.currentTarget && onClose() },
-    React.createElement('div', { className: 'modal' },
-      React.createElement('div', { className: 'modal-header' },
-        React.createElement('div', { className: 'modal-title' }, isEdit ? 'Edit Deal' : 'New Deal'),
-        React.createElement('button', { className: 'modal-close', onClick: onClose }, '×')
+  return R('div',{className:'overlay',onClick:e=>e.target===e.currentTarget&&onClose()},
+    R('div',{className:'modal'},
+      R('div',{className:'modal-hd'},
+        R('div',{className:'modal-title'},isEdit?'Edit Deal':'New Deal'),
+        R('button',{className:'modal-x',onClick:onClose},'×')
       ),
-      React.createElement('div', { className: 'modal-body' },
-        React.createElement('div', { className: 'form-grid' },
-          ...DEAL_FIELDS.map(f =>
-            React.createElement('div', { key: f.key, className: `form-group${f.full ? ' full' : ''}` },
-              React.createElement('label', null, f.label + (f.required ? ' *' : '')),
-              f.type === 'select'
-                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) },
-                    React.createElement('option', { value: '' }, 'Select…'),
-                    ...f.options.map(o => React.createElement('option', { key: o, value: o }, o))
-                  )
-                : f.type === 'textarea'
-                ? React.createElement('textarea', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
-                : React.createElement('input', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+      R('div',{className:'modal-bd'},
+        R('div',{className:'form-grid'},
+          ...DFIELDS.map(f=>
+            R('div',{key:f.k,className:`fg${f.full?' full':''}`},
+              R('label',null,f.l+(f.req?' *':'')),
+              f.type==='sel'
+                ? R('select',{className:'fc',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)},
+                    R('option',{value:''},'Select…'),
+                    ...f.opts.map(o=>R('option',{key:o,value:o},o)))
+                : f.type==='ta'
+                ? R('textarea',{className:'fc',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)})
+                : R('input',{className:'fc',type:f.type||'text',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)})
             )
           )
         )
       ),
-      React.createElement('div', { className: 'modal-footer' },
-        React.createElement('button', { className: 'btn btn-ghost', onClick: onClose }, 'Cancel'),
-        React.createElement('button', { className: 'btn btn-primary', onClick: save, disabled: saving }, saving ? 'Saving…' : 'Save Deal')
+      R('div',{className:'modal-ft'},
+        R('button',{className:'btn btn-ghost',onClick:onClose},'Cancel'),
+        R('button',{className:'btn btn-gold',onClick:save,disabled:saving},saving?'Saving…':'Save Deal')
       )
     )
   );
 }
 
-function InvestorModal({ inv, dealId, dealName, funds, onClose, onSave, showToast }) {
+// ── INVESTOR MODAL ────────────────────────────────────────
+const INV_STATUSES = ['0 - Rejected','1 - Conflicted (do not approach)','2 - Shortlisted','3 - On Hold','4 - Cleared','5 - Contacted','6 - Pending Signed Agreement(s)','7 - In Play','8 - Offer Submitted'];
+const FEE_STATUSES = ['Not Signed','Signed','Deferred (until offer submitted)'];
+const FEE_SIGNED  = ['No','Yes','Fully Executed','Pending - Documents sent'];
+const AGR_TYPES   = ['Master Level','Project Level','Under Discussion'];
+const BUCKETS     = ['Bucket 1','Bucket 1a','Bucket 2','Bucket 3'];
+
+function InvModal({inv,dealId,dealName,funds,onClose,onSave,toast}) {
   const isEdit = !!inv?.id;
-  const [form, setForm] = useState(inv ? { ...inv } : { potential_deals_id: dealId, potential_deals_name: dealName, fund_status: '2 - Shortlisted', essa_fee_status: 'Not Signed', fee_agreement_signed: 'No', bucket: 'Bucket 1' });
-  const [saving, setSaving] = useState(false);
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const onFundChange = (name) => {
-    const fund = funds.find(f => f.name === name);
-    set('potential_funds_name', name);
-    if (fund) { set('potential_funds_id', fund.id); set('essa_lead_name', fund.essa_relationship_manager_name || ''); }
+  const [form,setForm] = useState(inv?{...inv}:{potential_deals_id:dealId,potential_deals_name:dealName,fund_status:'2 - Shortlisted',essa_fee_status:'Not Signed',fee_agreement_signed:'No',bucket:'Bucket 1'});
+  const [saving,setSaving] = useState(false);
+  const set = (k,v)=>setForm(f=>({...f,[k]:v}));
+  const onFund = name => {
+    const f=funds.find(x=>x.name===name);
+    set('potential_funds_name',name);
+    if(f){set('potential_funds_id',f.id);set('essa_lead_name',f.essa_relationship_manager_name||'');}
   };
-
-  const save = async () => {
-    if (!form.potential_funds_name) { showToast('Fund name is required', 'error'); return; }
+  const save = async()=>{
+    if(!form.potential_funds_name){toast('Fund required','error');return;}
     setSaving(true);
-    try {
-      if (isEdit) {
-        const { id, ...rest } = form;
-        await sbFetch(`/deal_investors?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ ...rest, modified_time: new Date().toISOString().split('T')[0] }) });
-      } else {
-        const newId = '5090809000' + Date.now();
-        await sbFetch('/deal_investors', { method: 'POST', body: JSON.stringify({ ...form, id: newId, created_time: new Date().toISOString().split('T')[0], modified_time: new Date().toISOString().split('T')[0] }) });
-      }
+    try{
+      if(isEdit){const{id,...rest}=form;await sb(`/deal_investors?id=eq.${id}`,{method:'PATCH',body:JSON.stringify({...rest,modified_time:new Date().toISOString().slice(0,10)})});}
+      else{await sb('/deal_investors',{method:'POST',body:JSON.stringify({...form,id:'5090809000'+Date.now(),created_time:new Date().toISOString().slice(0,10),modified_time:new Date().toISOString().slice(0,10)})});}
       onSave();
-    } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
+    }catch(e){toast('Save failed: '+e.message,'error');}
     setSaving(false);
   };
-
-  const fields = [
-    { key: 'potential_funds_name', label: 'Fund *', full: true, type: isEdit ? 'input' : 'fund-select' },
-    { key: 'essa_lead_name', label: 'ESSA Lead' },
-    { key: 'bucket', label: 'Bucket', type: 'select', options: BUCKET_OPTIONS },
-    { key: 'fund_status', label: 'Fund Status', type: 'select', options: INV_STATUS_OPTIONS },
-    { key: 'essa_fee_status', label: 'ESSA Fee Status', type: 'select', options: FEE_STATUS_OPTIONS },
-    { key: 'fee_agreement_signed', label: 'Fee Agreement Signed', type: 'select', options: FEE_SIGNED_OPTIONS },
-    { key: 'essa_agreement_type', label: 'Agreement Type', type: 'select', options: AGREEMENT_TYPES },
-    { key: 'status_date', label: 'Status Date', type: 'date' },
-    { key: 'investor_contact_name', label: 'Investor Contact' },
-    { key: 'status_information', label: 'Status Information', type: 'textarea', full: true },
+  const fields=[
+    {k:'potential_funds_name',l:'Fund *',full:true,type:isEdit?'input':'fund-sel'},
+    {k:'essa_lead_name',l:'ESSA Lead'},{k:'bucket',l:'Bucket',type:'sel',opts:BUCKETS},
+    {k:'fund_status',l:'Fund Status',type:'sel',opts:INV_STATUSES},
+    {k:'essa_fee_status',l:'ESSA Fee Status',type:'sel',opts:FEE_STATUSES},
+    {k:'fee_agreement_signed',l:'Fee Agreement Signed',type:'sel',opts:FEE_SIGNED},
+    {k:'essa_agreement_type',l:'Agreement Type',type:'sel',opts:AGR_TYPES},
+    {k:'status_date',l:'Status Date',type:'date'},
+    {k:'investor_contact_name',l:'Investor Contact'},
+    {k:'status_information',l:'Status Information',type:'ta',full:true},
   ];
-
-  return React.createElement('div', { className: 'modal-overlay', onClick: e => e.target === e.currentTarget && onClose() },
-    React.createElement('div', { className: 'modal' },
-      React.createElement('div', { className: 'modal-header' },
-        React.createElement('div', { className: 'modal-title' }, isEdit ? 'Edit Investor' : 'Add Investor'),
-        React.createElement('button', { className: 'modal-close', onClick: onClose }, '×')
+  return R('div',{className:'overlay',onClick:e=>e.target===e.currentTarget&&onClose()},
+    R('div',{className:'modal'},
+      R('div',{className:'modal-hd'},
+        R('div',{className:'modal-title'},isEdit?'Edit Investor':'Add Investor'),
+        R('button',{className:'modal-x',onClick:onClose},'×')
       ),
-      React.createElement('div', { className: 'modal-body' },
-        React.createElement('div', { className: 'form-grid' },
-          ...fields.map(f =>
-            React.createElement('div', { key: f.key, className: `form-group${f.full ? ' full' : ''}` },
-              React.createElement('label', null, f.label),
-              f.type === 'fund-select'
-                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => onFundChange(e.target.value) },
-                    React.createElement('option', { value: '' }, 'Select fund…'),
-                    ...funds.map(fd => React.createElement('option', { key: fd.id, value: fd.name }, fd.name))
-                  )
-                : f.type === 'select'
-                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) },
-                    ...f.options.map(o => React.createElement('option', { key: o, value: o }, o))
-                  )
-                : f.type === 'textarea'
-                ? React.createElement('textarea', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
-                : React.createElement('input', { className: 'form-control', type: f.type || 'text', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+      R('div',{className:'modal-bd'},
+        R('div',{className:'form-grid'},
+          ...fields.map(f=>
+            R('div',{key:f.k,className:`fg${f.full?' full':''}`},
+              R('label',null,f.l),
+              f.type==='fund-sel'
+                ? R('select',{className:'fc',value:form[f.k]||'',onChange:e=>onFund(e.target.value)},
+                    R('option',{value:''},'Select fund…'),
+                    ...funds.map(fd=>R('option',{key:fd.id,value:fd.name},fd.name)))
+                : f.type==='sel'
+                ? R('select',{className:'fc',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)},
+                    ...f.opts.map(o=>R('option',{key:o,value:o},o)))
+                : f.type==='ta'
+                ? R('textarea',{className:'fc',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)})
+                : R('input',{className:'fc',type:f.type||'text',value:form[f.k]||'',onChange:e=>set(f.k,e.target.value)})
             )
           )
         )
       ),
-      React.createElement('div', { className: 'modal-footer' },
-        React.createElement('button', { className: 'btn btn-ghost', onClick: onClose }, 'Cancel'),
-        React.createElement('button', { className: 'btn btn-primary', onClick: save, disabled: saving }, saving ? 'Saving…' : 'Save')
+      R('div',{className:'modal-ft'},
+        R('button',{className:'btn btn-ghost',onClick:onClose},'Cancel'),
+        R('button',{className:'btn btn-gold',onClick:save,disabled:saving},saving?'Saving…':'Save')
       )
     )
   );
 }
 
-function DealsView({ onSelectDeal, showToast }) {
-  const [deals, setDeals] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [stageFilter, setStageFilter] = useState('');
-  const [modal, setModal] = useState(null);
-  const [confirm, setConfirm] = useState(null);
-
-  const load = useCallback(async () => {
-    setLoading(true);
-    try {
-      const data = await sbFetch('/deals?select=id,deal_name,stage,sector,country,vol_eurm,deal_captain_name,deal_originator,created_time&order=created_time.desc&limit=500');
-      setDeals(data || []);
-    } catch (e) { showToast('Failed to load deals', 'error'); }
-    setLoading(false);
-  }, []);
-
-  useEffect(() => { load(); }, [load]);
-
-  const filtered = deals.filter(d => {
-    const q = search.toLowerCase();
-    return (!q || [d.deal_name, d.sector, d.country, d.deal_captain_name].some(v => (v||'').toLowerCase().includes(q))) &&
-           (!stageFilter || d.stage === stageFilter);
-  });
-
-  const deleteDeal = async (id) => {
-    try {
-      await sbFetch(`/deals?id=eq.${id}`, { method: 'DELETE' });
-      showToast('Deal deleted', 'success'); load();
-    } catch (e) { showToast('Delete failed', 'error'); }
-    setConfirm(null);
-  };
-
-  return React.createElement(React.Fragment, null,
-    React.createElement('div', { className: 'toolbar' },
-      React.createElement('div', { className: 'search-wrap' },
-        React.createElement('span', { className: 'search-icon' }, '⌕'),
-        React.createElement('input', { placeholder: 'Search deals…', value: search, onChange: e => setSearch(e.target.value) })
-      ),
-      React.createElement('select', { className: 'filter-select', value: stageFilter, onChange: e => setStageFilter(e.target.value) },
-        React.createElement('option', { value: '' }, 'All Stages'),
-        ...DEAL_STAGES.map(s => React.createElement('option', { key: s, value: s }, s))
-      ),
-      React.createElement('span', { className: 'row-count' }, `${filtered.length} deal${filtered.length !== 1 ? 's' : ''}`),
-      React.createElement('button', { className: 'btn btn-primary', onClick: () => setModal('create') }, '+ New Deal')
-    ),
-    React.createElement('div', { className: 'table-wrap' },
-      loading
-        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading deals…')
-        : filtered.length === 0
-        ? React.createElement('div', { className: 'empty' }, React.createElement('div', { className: 'empty-icon' }, '📋'), 'No deals found')
-        : React.createElement('table', null,
-            React.createElement('thead', null,
-              React.createElement('tr', null,
-                ['Deal Name','Stage','Sector','Country','Vol €m','Deal Captain','Created','Actions'].map(h =>
-                  React.createElement('th', { key: h }, h)
-                )
-              )
-            ),
-            React.createElement('tbody', null,
-              filtered.map(d =>
-                React.createElement('tr', { key: d.id, className: 'clickable', onClick: () => onSelectDeal(d) },
-                  React.createElement('td', { style: { fontWeight: 500, color: 'var(--gold)' } }, d.deal_name || '—'),
-                  React.createElement('td', null, stageBadge(d.stage)),
-                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.sector || '—'),
-                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.country || '—'),
-                  React.createElement('td', { className: 'mono' }, d.vol_eurm && d.vol_eurm !== 'NaN' ? `€${d.vol_eurm}m` : '—'),
-                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.deal_captain_name || '—'),
-                  React.createElement('td', { className: 'mono', style: { color: 'var(--text3)' } }, d.created_time ? d.created_time.slice(0, 10) : '—'),
-                  React.createElement('td', { onClick: e => e.stopPropagation() },
-                    React.createElement('div', { className: 'actions-cell' },
-                      React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setModal(d) }, 'Edit'),
-                      React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: () => setConfirm(d) }, 'Delete')
-                    )
-                  )
-                )
-              )
-            )
-          )
-    ),
-    (modal === 'create' || (modal && modal.id)) &&
-      React.createElement(DealModal, { deal: modal === 'create' ? null : modal, onClose: () => setModal(null), onSave: () => { setModal(null); load(); showToast('Deal saved', 'success'); }, showToast }),
-    confirm &&
-      React.createElement(ConfirmDialog, { title: 'Delete Deal', msg: `Delete "${confirm.deal_name}"? This cannot be undone.`, onConfirm: () => deleteDeal(confirm.id), onCancel: () => setConfirm(null) })
-  );
+// ── ZOHO-STYLE INVESTOR STATUS BADGE ─────────────────────
+function ZBadge({val, type}) {
+  if(!val||val==='NaN') return R('span',{style:{color:'#999'}}, '—');
+  if(type==='status') {
+    const cls = val.includes('In Play')||val.includes('Offer') ? 'zb-green'
+              : val.includes('Pending')||val.includes('Contacted')||val.includes('Cleared') ? 'zb-orange'
+              : val.includes('Rejected')||val.includes('Conflicted')||val.includes('Hold') ? 'zb-red'
+              : 'zb-pipeline';
+    return R('span',{className:`zb ${cls}`}, val);
+  }
+  if(type==='yesno') {
+    return R('span',{className:`zb ${val==='Yes'?'zb-green':'zb-red'}`}, val);
+  }
+  if(type==='fee') {
+    return R('span',{className:`zb ${val==='Signed'?'zb-green':val==='Not Signed'?'zb-red':'zb-orange'}`}, val);
+  }
+  if(type==='bucket') return R('span',{className:'zb zb-green'}, val);
+  if(type==='alert') return val&&val!=='NaN' ? R('span',{className:'zb zb-fee'}, val) : null;
+  return R('span',null, val);
 }
 
-function DealDetailView({ deal, onBack, showToast }) {
-  const [investors, setInvestors] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [funds, setFunds] = useState([]);
-  const [modal, setModal] = useState(null);
-  const [confirm, setConfirm] = useState(null);
-  const [editDeal, setEditDeal] = useState(false);
-  const [dealData, setDealData] = useState(deal);
+// ── DEAL DETAIL VIEW (Zoho style) ─────────────────────────
+function DealDetail({deal:initialDeal, onBack, toast}) {
+  const [deal,setDeal] = useState(initialDeal);
+  const [investors,setInvestors] = useState([]);
+  const [funds,setFunds] = useState([]);
+  const [loading,setLoading] = useState(true);
+  const [modal,setModal] = useState(null);
+  const [confirm,setConfirm] = useState(null);
+  const [editDeal,setEditDeal] = useState(false);
 
-  const load = useCallback(async () => {
+  const load = useCallback(async()=>{
     setLoading(true);
-    try {
-      const [invData, fundData] = await Promise.all([
-        sbFetch(`/deal_investors?potential_deals_id=eq.${deal.id}&order=bucket.asc,fund_status.asc`),
-        sbFetch('/counterparts?select=id,name,essa_relationship_manager_name&counterpart_type=eq.Investor&order=name.asc&limit=600')
+    try{
+      const [inv,fds] = await Promise.all([
+        sb(`/deal_investors?potential_deals_id=eq.${deal.id}&order=bucket.asc,fund_status.asc`),
+        sb('/counterparts?select=id,name,essa_relationship_manager_name&counterpart_type=eq.Investor&order=name.asc&limit=600')
       ]);
-      setInvestors(invData || []);
-      setFunds(fundData || []);
-    } catch (e) { showToast('Failed to load', 'error'); }
+      setInvestors(inv||[]);
+      setFunds(fds||[]);
+    }catch(e){toast('Failed to load','error');}
     setLoading(false);
-  }, [deal.id]);
+  },[deal.id]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(()=>{load();},[load]);
 
-  const deleteInvestor = async (id) => {
-    try {
-      await sbFetch(`/deal_investors?id=eq.${id}`, { method: 'DELETE' });
-      showToast('Investor removed', 'success'); load();
-    } catch (e) { showToast('Delete failed', 'error'); }
+  const deleteInv = async id=>{
+    try{await sb(`/deal_investors?id=eq.${id}`,{method:'DELETE'});toast('Investor removed','success');load();}
+    catch(e){toast('Delete failed','error');}
     setConfirm(null);
   };
 
-  const stats = [
-    ['Volume', dealData.vol_eurm && dealData.vol_eurm !== 'NaN' ? `€${dealData.vol_eurm}m` : '—'],
-    ['Deal Captain', dealData.deal_captain_name || '—'],
-    ['Originator', dealData.deal_originator || '—'],
-    ['Type', dealData.deal_type_situation || '—'],
-    ['Created', dealData.created_time ? dealData.created_time.slice(0,10) : '—'],
-    ['Target', dealData.target_company_name || '—'],
-  ];
+  const fmt = v => clean(v)||'—';
+  const fmtDate = v => { if(!clean(v)) return '—'; try{return new Date(v).toLocaleDateString('en-GB');}catch{return v;} };
 
-  return React.createElement(React.Fragment, null,
-    React.createElement('button', { className: 'back-btn', onClick: onBack }, '← Back to Deals'),
-    React.createElement('div', { className: 'deal-header' },
-      React.createElement('div', { style: { display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16 } },
-        React.createElement('div', null,
-          React.createElement('div', { className: 'deal-title' }, dealData.deal_name),
-          React.createElement('div', { className: 'deal-meta' }, `${dealData.sector || '—'} · ${dealData.country || '—'}`)
-        ),
-        React.createElement('div', { style: { display:'flex', gap:8, alignItems:'center', flexShrink:0 } },
-          stageBadge(dealData.stage),
-          React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setEditDeal(true) }, 'Edit Deal')
-        )
+  return R('div',{className:'detail-wrap'},
+    R('button',{className:'back-btn',onClick:onBack},'← Back to Deals'),
+
+    // ── Header ──
+    R('div',{className:'dh'},
+      R('div',{className:'dh-left'},
+        R('div',{className:'dh-info-label'},'Deal Information'),
+        R('div',{className:'dh-title'},deal.deal_name)
       ),
-      React.createElement('div', { className: 'deal-grid' },
-        ...stats.map(([l, v]) =>
-          React.createElement('div', { key: l },
-            React.createElement('div', { className: 'deal-stat-label' }, l),
-            React.createElement('div', { className: 'deal-stat-value' }, v)
+      R('div',{className:'dh-center'},
+        R('div',{className:'dh-alt-label'},'Alternate Deal Name'),
+        R('div',{className:'dh-alt-val'},fmt(deal.alternate_deal_name))
+      ),
+      R('div',{className:'dh-right'},
+        R('div',{className:'dh-meta'},
+          R('div',{className:'dh-meta-item'},R('span',{className:'dh-meta-label'},'Modified By'),R('span',{className:'dh-meta-val'},fmt(deal.modified_by?.includes?.('{')&&'Michael Moore'||deal.modified_by))),
+          R('div',{className:'dh-meta-item'},R('span',{className:'dh-meta-label'},'Modified Time'),R('span',{className:'dh-meta-val'},fmtDate(deal.modified_time)))
+        ),
+        R('div',{className:'dh-actions'},
+          R('button',{className:'dh-btn-edit',onClick:()=>setEditDeal(true)},'Edit'),
+          R('button',{className:'dh-btn-clone'},'Clone'),
+          R('div',{className:'essa-logo'},
+            R('div',{className:'essa-dots'},R('div',{className:'essa-dot g'}),R('div',{className:'essa-dot g'}),R('div',{className:'essa-dot gy'}),R('div',{className:'essa-dot gy'})),
+            R('div',{className:'essa-name'},'ESSA'),
+            R('div',{className:'essa-sub'},'PARTNERS')
           )
         )
-      ),
-      dealData.next_steps && dealData.next_steps !== 'NaN' &&
-        React.createElement('div', { style: { marginTop:16, paddingTop:16, borderTop:'1px solid var(--border)' } },
-          React.createElement('div', { className: 'deal-stat-label' }, 'Next Steps'),
-          React.createElement('div', { style: { marginTop:4, fontSize:13, color:'var(--text2)', lineHeight:1.6 } }, dealData.next_steps)
-        )
+      )
     ),
-    React.createElement('div', { style: { display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12 } },
-      React.createElement('div', { className: 'section-heading', style: { margin:0 } }, `Investors (${investors.length})`),
-      React.createElement('button', { className: 'btn btn-primary btn-sm', onClick: () => setModal('create') }, '+ Add Investor')
+
+    // ── Tabs ──
+    R('div',{className:'d-tabs'},
+      R('div',{className:'d-tab active'},'Overview'),
+      R('div',{className:'d-tab'},'Counterparts (Non-Investors)',R('span',{className:'d-tab-badge'},'—')),
+      R('div',{className:'d-tab'},'Deal Document Tracker'),
+      R('div',{className:'d-tab'},'Notes'),
+      R('div',{className:'d-tab'},'Attachments'),
+      R('div',{className:'d-tab'},'Timeline')
     ),
-    React.createElement('div', { className: 'table-wrap' },
-      loading
-        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading…')
-        : investors.length === 0
-        ? React.createElement('div', { className: 'empty' }, React.createElement('div', { className: 'empty-icon' }, '👥'), 'No investors linked yet')
-        : React.createElement('table', null,
-            React.createElement('thead', null,
-              React.createElement('tr', null,
-                ['Fund','ESSA Lead','Bucket','Status','Fee Agreement','Agreement Type','Status Date','Actions'].map(h =>
-                  React.createElement('th', { key: h }, h)
-                )
-              )
+
+    // ── Summary ──
+    R('div',{className:'d-summary'},
+      R('div',{className:'d-summary-label'},'Deal Summary'),
+      R('div',{className:'d-summary-val'},fmt(deal.deal_description))
+    ),
+
+    // ── Two panels ──
+    R('div',{className:'d-bg'},
+      R('div',{className:'d-panels'},
+        // Deal Status
+        R('div',{className:'d-panel'},
+          R('div',{className:'d-panel-hd'},'Deal Status'),
+          R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-green'},'Stage'),R('div',{className:'d-fv'},R('span',{className:`zb ${deal.stage==='Live'?'zb-green':deal.stage==='Pipeline'?'zb-pipeline':'zb-orange'}`},fmt(deal.stage)))),
+          R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-green'},'Deal Priority'),R('div',{className:'d-fv'},clean(deal.priority)?R('span',{className:'zb zb-green'},deal.priority):'—')),
+          R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-green'},'Deal Captain'),R('div',{className:'d-fv'},R('a',{className:'d-link',href:'#'},fmt(deal.deal_captain_name)))),
+          R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-green'},'Date Logged'),R('div',{className:'d-fv'},fmtDate(deal.date_logged))),
+          R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-green'},'Originator'),R('div',{className:'d-fv'},fmt(deal.deal_originator)))
+        ),
+
+        // Deal Details
+        R('div',{className:'d-panel wide'},
+          R('div',{className:'d-panel-hd'},'Deal Details'),
+          R('div',{className:'dd-cols'},
+            R('div',{className:'dd-col'},
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-teal'},'Sponsored Deal'),R('div',{className:'d-fv'},fmt(deal.sponsorship))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-teal'},'Target Company Name'),R('div',{className:'d-fv'},fmt(deal.target_company_name))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-teal'},'Country'),R('div',{className:'d-fv'},fmt(deal.country))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-teal'},'Sector'),R('div',{className:'d-fv'},fmt(deal.sector)))
             ),
-            React.createElement('tbody', null,
-              investors.map(inv =>
-                React.createElement('tr', { key: inv.id },
-                  React.createElement('td', { style: { fontWeight:500 } }, inv.potential_funds_name || '—'),
-                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, inv.essa_lead_name && inv.essa_lead_name !== 'NaN' ? inv.essa_lead_name : '—'),
-                  React.createElement('td', { style: { color:'var(--text3)', fontSize:12 } }, inv.bucket || '—'),
-                  React.createElement('td', null, fundStatusBadge(inv.fund_status)),
-                  React.createElement('td', null, feeBadge(inv.essa_fee_status)),
-                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, inv.essa_agreement_type && inv.essa_agreement_type !== 'NaN' ? inv.essa_agreement_type : '—'),
-                  React.createElement('td', { className: 'mono', style: { color:'var(--text3)' } }, inv.status_date && inv.status_date !== 'NaN' ? inv.status_date : '—'),
-                  React.createElement('td', null,
-                    React.createElement('div', { className: 'actions-cell' },
-                      React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setModal(inv) }, 'Edit'),
-                      React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: () => setConfirm(inv) }, 'Remove')
-                    )
-                  )
-                )
-              )
+            R('div',{className:'dd-col'},
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-navy'},'Deal Type/Situation'),R('div',{className:'d-fv'},fmt(deal.deal_type_situation))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-navy'},'Financing Type'),R('div',{className:'d-fv',style:{fontSize:'10.5px'}},fmt(deal.financing_type))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-navy'},'Volume Min (EURM)'),R('div',{className:'d-fv'},fmt(deal.volume_min_eurm))),
+              R('div',{className:'d-field-row'},R('div',{className:'d-fk fk-navy'},'Volume Max (EURM)'),R('div',{className:'d-fv'},clean(deal.vol_eurm)||'—'))
             )
           )
+        )
+      ),
+
+      // ── Investors table ──
+      R('div',{className:'d-inv-wrap'},
+        R('div',{className:'d-inv-hd'},
+          'Counterparts (Investors) ',R('span',{className:'d-inv-count'},investors.length),
+          R('button',{className:'d-add-btn',onClick:()=>setModal('create')},'+')
+        ),
+        loading
+          ? R('div',{className:'loading'},R('div',{className:'spinner'}))
+          : investors.length===0
+          ? R('div',{className:'empty'},'No investors linked yet')
+          : R('table',{className:'d-inv'},
+              R('thead',null,R('tr',null,
+                ['RecordID','Alert','Counterpart Name','Counterpart Type','ESSA Agreement Type','Contact Name','Contact email','Distribution Lead','Bucket','Investor Stage','Trusted Relationship','Agreements in Parallel','ESSA Fee','Actions'].map(h=>R('th',{key:h},h))
+              )),
+              R('tbody',null,
+                investors.map(inv=>R('tr',{key:inv.id},
+                  R('td',null,R('a',{className:'d-link',href:'#'},clean(inv.name)||'—')),
+                  R('td',null,R(ZBadge,{val:clean(inv.alert),type:'alert'})),
+                  R('td',null,R('a',{className:'d-link',href:'#'},clean(inv.potential_funds_name)||'—')),
+                  R('td',null,clean(inv.counterpart_role)||'—'),
+                  R('td',null,clean(inv.essa_agreement_type)||'—'),
+                  R('td',null,clean(inv.investor_contact_name)?R('a',{className:'d-link',href:'#'},inv.investor_contact_name):'—'),
+                  R('td',null,clean(inv.contact_email)?R('span',{className:'trunc',title:inv.contact_email},inv.contact_email):'—'),
+                  R('td',null,clean(inv.essa_lead_name)||'—'),
+                  R('td',null,R(ZBadge,{val:clean(inv.bucket),type:'bucket'})),
+                  R('td',null,R(ZBadge,{val:clean(inv.fund_status),type:'status'})),
+                  R('td',null,R(ZBadge,{val:clean(inv.strditrusted),type:'yesno'})),
+                  R('td',null,R(ZBadge,{val:clean(inv.agreements_in_parallel),type:'yesno'})),
+                  R('td',null,R(ZBadge,{val:clean(inv.essa_fee_status),type:'fee'})),
+                  R('td',null,R('div',{className:'actions-cell'},
+                    R('button',{className:'btn btn-ghost btn-sm',onClick:()=>setModal(inv)},'Edit'),
+                    R('button',{className:'btn btn-danger btn-sm',onClick:()=>setConfirm(inv)},'Remove')
+                  ))
+                ))
+              )
+            )
+      )
     ),
-    (modal === 'create' || (modal && modal.id)) &&
-      React.createElement(InvestorModal, { inv: modal === 'create' ? null : modal, dealId: deal.id, dealName: dealData.deal_name, funds, onClose: () => setModal(null), onSave: () => { setModal(null); load(); showToast('Investor saved', 'success'); }, showToast }),
-    editDeal &&
-      React.createElement(DealModal, { deal: dealData, onClose: () => setEditDeal(false), onSave: async () => {
-        setEditDeal(false);
-        const updated = await sbFetch(`/deals?id=eq.${deal.id}&select=*`);
-        if (updated?.[0]) setDealData(updated[0]);
-        showToast('Deal updated', 'success');
-      }, showToast }),
-    confirm &&
-      React.createElement(ConfirmDialog, { title: 'Remove Investor', msg: `Remove ${confirm.potential_funds_name} from this deal?`, onConfirm: () => deleteInvestor(confirm.id), onCancel: () => setConfirm(null) })
+
+    modal&&R(InvModal,{inv:modal==='create'?null:modal,dealId:deal.id,dealName:deal.deal_name,funds,onClose:()=>setModal(null),onSave:()=>{setModal(null);load();toast('Saved','success');},toast}),
+    editDeal&&R(DealModal,{deal,onClose:()=>setEditDeal(false),onSave:async()=>{setEditDeal(false);const d=await sb(`/deals?id=eq.${deal.id}&select=*`);if(d?.[0])setDeal(d[0]);toast('Deal updated','success');},toast}),
+    confirm&&R(Confirm,{title:'Remove Investor',msg:`Remove ${confirm.potential_funds_name}?`,onOk:()=>deleteInv(confirm.id),onCancel:()=>setConfirm(null)})
   );
 }
 
-function CounterpartsView({ showToast }) {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
-  const [typeFilter, setTypeFilter] = useState('');
+// ── DEALS LIST VIEW ───────────────────────────────────────
+function DealsView({onSelect,toast}) {
+  const [deals,setDeals] = useState([]);
+  const [loading,setLoading] = useState(true);
+  const [search,setSearch] = useState('');
+  const [stage,setStage] = useState('');
+  const [modal,setModal] = useState(null);
+  const [confirm,setConfirm] = useState(null);
 
-  useEffect(() => {
-    sbFetch('/counterparts?select=id,name,counterpart_type,essa_relationship_manager_name,strinvma,master_agreement_expiry_date,total_fee_agreements,strmatrusted&order=name.asc&limit=600')
-      .then(d => setData(d || []))
-      .catch(() => showToast('Failed to load', 'error'))
-      .finally(() => setLoading(false));
-  }, []);
+  const load = useCallback(async()=>{
+    setLoading(true);
+    try{const d=await sb('/deals?select=id,deal_name,stage,sector,country,vol_eurm,deal_captain_name,created_time,modified_time&order=created_time.desc&limit=500');setDeals(d||[]);}
+    catch(e){toast('Failed to load deals','error');}
+    setLoading(false);
+  },[]);
+  useEffect(()=>{load();},[load]);
 
-  const types = [...new Set(data.map(d => d.counterpart_type).filter(Boolean))].sort();
-  const filtered = data.filter(d => {
-    const q = search.toLowerCase();
-    return (!q || (d.name||'').toLowerCase().includes(q) || (d.essa_relationship_manager_name||'').toLowerCase().includes(q)) &&
-           (!typeFilter || d.counterpart_type === typeFilter);
+  const filtered = deals.filter(d=>{
+    const q=search.toLowerCase();
+    return (!q||[d.deal_name,d.sector,d.country,d.deal_captain_name].some(v=>(v||'').toLowerCase().includes(q)))&&(!stage||d.stage===stage);
   });
 
-  return React.createElement(React.Fragment, null,
-    React.createElement('div', { className: 'toolbar' },
-      React.createElement('div', { className: 'search-wrap' },
-        React.createElement('span', { className: 'search-icon' }, '⌕'),
-        React.createElement('input', { placeholder: 'Search counterparts…', value: search, onChange: e => setSearch(e.target.value) })
+  const del = async id=>{
+    try{await sb(`/deals?id=eq.${id}`,{method:'DELETE'});toast('Deal deleted','success');load();}
+    catch(e){toast('Delete failed','error');}
+    setConfirm(null);
+  };
+
+  return R(React.Fragment,null,
+    R('div',{className:'toolbar'},
+      R('div',{className:'search-wrap'},
+        R('span',{className:'search-icon'},'⌕'),
+        R('input',{placeholder:'Search deals…',value:search,onChange:e=>setSearch(e.target.value)})
       ),
-      React.createElement('select', { className: 'filter-select', value: typeFilter, onChange: e => setTypeFilter(e.target.value) },
-        React.createElement('option', { value: '' }, 'All Types'),
-        ...types.map(t => React.createElement('option', { key: t, value: t }, t))
+      R('select',{className:'filter-sel',value:stage,onChange:e=>setStage(e.target.value)},
+        R('option',{value:''},'All Stages'),
+        ...['Pipeline','Live','On-Hold','Completed','Inactive'].map(s=>R('option',{key:s,value:s},s))
       ),
-      React.createElement('span', { className: 'row-count' }, `${filtered.length} records`)
+      R('span',{className:'row-count'},`${filtered.length} deal${filtered.length!==1?'s':''}`),
+      R('button',{className:'btn btn-gold',onClick:()=>setModal('create')},'+ New Deal')
     ),
-    React.createElement('div', { className: 'table-wrap' },
+    R('div',{className:'table-card'},
       loading
-        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading…')
-        : React.createElement('table', null,
-            React.createElement('thead', null,
-              React.createElement('tr', null,
-                ['Name','Type','ESSA Relationship Manager','Master Agreement','MA Expiry','Fee Agreements','Trusted'].map(h =>
-                  React.createElement('th', { key: h }, h)
+        ? R('div',{className:'loading'},R('div',{className:'spinner'}),'Loading deals…')
+        : filtered.length===0
+        ? R('div',{className:'empty'},'No deals found')
+        : R('table',null,
+            R('thead',null,R('tr',null,
+              ['Deal Name','Stage','Sector','Country','Vol €m','Deal Captain','Created','Actions'].map(h=>R('th',{key:h},h))
+            )),
+            R('tbody',null,
+              filtered.map(d=>R('tr',{key:d.id,onClick:()=>onSelect(d)},
+                R('td',{style:{fontWeight:600,color:'#d4a843'}},d.deal_name||'—'),
+                R('td',null,stagePill(d.stage)),
+                R('td',{style:{color:'#8b949e'}},d.sector||'—'),
+                R('td',{style:{color:'#8b949e'}},d.country||'—'),
+                R('td',{className:'mono'},d.vol_eurm&&d.vol_eurm!=='NaN'?`€${d.vol_eurm}m`:'—'),
+                R('td',{style:{color:'#8b949e'}},d.deal_captain_name||'—'),
+                R('td',{className:'mono',style:{color:'#6e7681'}},d.created_time?d.created_time.slice(0,10):'—'),
+                R('td',{onClick:e=>e.stopPropagation()},
+                  R('div',{className:'actions-cell'},
+                    R('button',{className:'btn btn-ghost btn-sm',onClick:e=>{e.stopPropagation();setModal(d)}},'Edit'),
+                    R('button',{className:'btn btn-danger btn-sm',onClick:e=>{e.stopPropagation();setConfirm(d)}},'Delete')
+                  )
                 )
-              )
-            ),
-            React.createElement('tbody', null,
-              filtered.map(d =>
-                React.createElement('tr', { key: d.id },
-                  React.createElement('td', { style: { fontWeight:500 } }, d.name || '—'),
-                  React.createElement('td', null, React.createElement('span', { className: 'badge badge-pipeline', style: { fontSize:11 } }, d.counterpart_type || '—')),
-                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, d.essa_relationship_manager_name || '—'),
-                  React.createElement('td', null, d.strinvma === 'Signed' ? React.createElement('span', { className: 'badge badge-signed' }, '✓ Signed') : React.createElement('span', { className: 'badge badge-notsigned' }, d.strinvma || '—')),
-                  React.createElement('td', { className: 'mono', style: { color: d.master_agreement_expiry_date && d.master_agreement_expiry_date < '2026-06-01' ? 'var(--orange)' : 'var(--text3)', fontSize:12 } }, d.master_agreement_expiry_date || '—'),
-                  React.createElement('td', { className: 'mono', style: { textAlign:'center' } }, d.total_fee_agreements || '—'),
-                  React.createElement('td', null, d.strmatrusted === 'Yes' ? React.createElement('span', { style: { color:'var(--green)' } }, '✓') : React.createElement('span', { style: { color:'var(--text3)' } }, '—'))
-                )
-              )
+              ))
             )
           )
+    ),
+    (modal==='create'||(modal&&modal.id))&&R(DealModal,{deal:modal==='create'?null:modal,onClose:()=>setModal(null),onSave:()=>{setModal(null);load();toast('Deal saved','success');},toast}),
+    confirm&&R(Confirm,{title:'Delete Deal',msg:`Delete "${confirm.deal_name}"? This cannot be undone.`,onOk:()=>del(confirm.id),onCancel:()=>setConfirm(null)})
+  );
+}
+
+// ── COUNTERPARTS VIEW ─────────────────────────────────────
+function CounterpartsView({toast}) {
+  const [data,setData] = useState([]);
+  const [loading,setLoading] = useState(true);
+  const [search,setSearch] = useState('');
+  const [type,setType] = useState('');
+
+  useEffect(()=>{
+    sb('/counterparts?select=id,name,counterpart_type,essa_relationship_manager_name,strinvma,master_agreement_expiry_date,total_fee_agreements,strmatrusted&order=name.asc&limit=600')
+      .then(d=>setData(d||[])).catch(()=>toast('Failed to load','error')).finally(()=>setLoading(false));
+  },[]);
+
+  const types=[...new Set(data.map(d=>d.counterpart_type).filter(Boolean))].sort();
+  const filtered=data.filter(d=>{
+    const q=search.toLowerCase();
+    return(!q||(d.name||'').toLowerCase().includes(q)||(d.essa_relationship_manager_name||'').toLowerCase().includes(q))&&(!type||d.counterpart_type===type);
+  });
+
+  return R(React.Fragment,null,
+    R('div',{className:'toolbar'},
+      R('div',{className:'search-wrap'},R('span',{className:'search-icon'},'⌕'),R('input',{placeholder:'Search counterparts…',value:search,onChange:e=>setSearch(e.target.value)})),
+      R('select',{className:'filter-sel',value:type,onChange:e=>setType(e.target.value)},R('option',{value:''},'All Types'),...types.map(t=>R('option',{key:t,value:t},t))),
+      R('span',{className:'row-count'},`${filtered.length} records`)
+    ),
+    R('div',{className:'table-card'},
+      loading?R('div',{className:'loading'},R('div',{className:'spinner'})):
+      R('table',null,
+        R('thead',null,R('tr',null,['Name','Type','ESSA Relationship Manager','Master Agreement','MA Expiry','Fee Agreements','Trusted'].map(h=>R('th',{key:h},h)))),
+        R('tbody',null,filtered.map(d=>R('tr',{key:d.id,style:{cursor:'default'}},
+          R('td',{style:{fontWeight:600}},d.name||'—'),
+          R('td',null,R('span',{className:'pill p-pipeline',style:{fontSize:10}},d.counterpart_type||'—')),
+          R('td',{style:{color:'#8b949e'}},d.essa_relationship_manager_name||'—'),
+          R('td',null,d.strinvma==='Signed'?R('span',{className:'pill p-live'},'✓ Signed'):R('span',{className:'pill p-inactive'},d.strinvma||'—')),
+          R('td',{className:'mono',style:{color:d.master_agreement_expiry_date&&d.master_agreement_expiry_date<'2026-07-01'?'#d29922':'#6e7681'}},d.master_agreement_expiry_date||'—'),
+          R('td',{className:'mono',style:{textAlign:'center'}},d.total_fee_agreements||'—'),
+          R('td',null,d.strmatrusted==='Yes'?R('span',{style:{color:'#3fb950'}},`✓`):R('span',{style:{color:'#6e7681'}},'—'))
+        )))
+      )
     )
   );
 }
 
+// ── APP ROOT ──────────────────────────────────────────────
 function App() {
-  const [tab, setTab] = useState('deals');
-  const [selectedDeal, setSelectedDeal] = useState(null);
-  const [toastMsg, setToastMsg] = useState(null);
-  const showToast = (msg, type = 'success') => setToastMsg({ msg, type, key: Date.now() });
+  const [tab,setTab] = useState('deals');
+  const [selectedDeal,setSelectedDeal] = useState(null);
+  const [toastMsg,setToastMsg] = useState(null);
+  const toast = (msg,type='success')=>setToastMsg({msg,type,key:Date.now()});
 
-  return React.createElement(React.Fragment, null,
-    React.createElement('div', { className: 'header' },
-      React.createElement('div', { className: 'logo' }, 'ESSA ', React.createElement('span', null, 'Deal Management')),
-      React.createElement('nav', { className: 'nav' },
-        React.createElement('button', { className: `nav-btn ${tab === 'deals' ? 'active' : ''}`, onClick: () => { setTab('deals'); setSelectedDeal(null); } }, 'Deals'),
-        React.createElement('button', { className: `nav-btn ${tab === 'counterparts' ? 'active' : ''}`, onClick: () => { setTab('counterparts'); setSelectedDeal(null); } }, 'Counterparts')
+  const switchTab = t => { setTab(t); setSelectedDeal(null); };
+
+  return R(React.Fragment,null,
+    R('div',{className:'top-nav'},
+      R('div',{className:'nav-logo'},'ESSA',R('span',null,'Deal Management')),
+      R('nav',{className:'nav-links'},
+        R('button',{className:`nav-btn${tab==='deals'?' active':''}`,onClick:()=>switchTab('deals')},'Deals'),
+        R('button',{className:`nav-btn${tab==='counterparts'?' active':''}`,onClick:()=>switchTab('counterparts')},'Counterparts')
       )
     ),
-    React.createElement('div', { className: 'main' },
-      tab === 'deals' && !selectedDeal && React.createElement(DealsView, { onSelectDeal: d => setSelectedDeal(d), showToast }),
-      tab === 'deals' && selectedDeal && React.createElement(DealDetailView, { deal: selectedDeal, onBack: () => setSelectedDeal(null), showToast }),
-      tab === 'counterparts' && React.createElement(CounterpartsView, { showToast })
+    R('div',{className:'main'},
+      tab==='deals'&&!selectedDeal&&R(DealsView,{onSelect:d=>setSelectedDeal(d),toast}),
+      tab==='deals'&&selectedDeal&&R(DealDetail,{deal:selectedDeal,onBack:()=>setSelectedDeal(null),toast}),
+      tab==='counterparts'&&R(CounterpartsView,{toast})
     ),
-    toastMsg && React.createElement(Toast, { key: toastMsg.key, msg: toastMsg.msg, type: toastMsg.type, onDone: () => setToastMsg(null) })
+    toastMsg&&R(Toast,{key:toastMsg.key,msg:toastMsg.msg,type:toastMsg.type,onDone:()=>setToastMsg(null)})
   );
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById('app'));
+ReactDOM.render(R(App), document.getElementById('app'));
 </script>
 </body>
 </html>
