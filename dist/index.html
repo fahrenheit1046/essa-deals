@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ESSA Deal Management</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --border2: #21262d;
+    --text: #e6edf3;
+    --text2: #8b949e;
+    --text3: #6e7681;
+    --gold: #d4a843;
+    --gold2: #b8902e;
+    --green: #3fb950;
+    --red: #f85149;
+    --blue: #58a6ff;
+    --orange: #d29922;
+    --purple: #a371f7;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 14px;
+  }
+
+  .header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 56px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--gold);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  .logo span { color: var(--text2); font-size: 13px; font-family: 'DM Sans', sans-serif; margin-left: 8px; }
+
+  .nav { display: flex; gap: 2px; }
+  .nav-btn {
+    background: none; border: none; color: var(--text2);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+    padding: 6px 14px; border-radius: 6px; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-btn:hover { color: var(--text); background: var(--surface2); }
+  .nav-btn.active { color: var(--gold); background: rgba(212,168,67,0.1); }
+
+  .main { padding: 24px; max-width: 1400px; margin: 0 auto; }
+
+  .toolbar { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+
+  .search-wrap { position: relative; flex: 1; max-width: 360px; }
+  .search-wrap input {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px 8px 36px;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    outline: none; transition: border 0.15s;
+  }
+  .search-wrap input:focus { border-color: var(--gold); }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 14px; }
+
+  .filter-select {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px; color: var(--text);
+    font-family: 'DM Sans', sans-serif; font-size: 13px; outline: none;
+    cursor: pointer;
+  }
+  .filter-select:focus { border-color: var(--gold); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 16px; border-radius: 8px; font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500; cursor: pointer; border: none;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .btn-primary { background: var(--gold); color: #0d1117; }
+  .btn-primary:hover { background: var(--gold2); }
+  .btn-ghost { background: var(--surface); border: 1px solid var(--border); color: var(--text2); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text3); }
+  .btn-danger { background: rgba(248,81,73,0.15); border: 1px solid rgba(248,81,73,0.3); color: var(--red); }
+  .btn-danger:hover { background: rgba(248,81,73,0.25); }
+  .btn-sm { padding: 4px 10px; font-size: 12px; border-radius: 6px; }
+
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--surface2); }
+  th {
+    padding: 10px 16px; text-align: left;
+    font-size: 11px; font-weight: 600; letter-spacing: 0.8px;
+    text-transform: uppercase; color: var(--text3);
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  td {
+    padding: 11px 16px; border-bottom: 1px solid var(--border2);
+    font-size: 13px; color: var(--text);
+    vertical-align: middle;
+  }
+  tr:last-child td { border-bottom: none; }
+  tbody tr { transition: background 0.1s; }
+  tbody tr:hover { background: var(--surface2); }
+  tbody tr.clickable { cursor: pointer; }
+
+  .mono { font-family: 'IBM Plex Mono', monospace; font-size: 12px; }
+
+  .badge {
+    display: inline-flex; align-items: center;
+    padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
+    white-space: nowrap;
+  }
+  .badge-live { background: rgba(63,185,80,0.15); color: var(--green); border: 1px solid rgba(63,185,80,0.3); }
+  .badge-pipeline { background: rgba(88,166,255,0.15); color: var(--blue); border: 1px solid rgba(88,166,255,0.3); }
+  .badge-inactive { background: rgba(110,118,129,0.15); color: var(--text3); border: 1px solid rgba(110,118,129,0.3); }
+  .badge-hold { background: rgba(210,153,34,0.15); color: var(--orange); border: 1px solid rgba(210,153,34,0.3); }
+  .badge-completed { background: rgba(163,113,247,0.15); color: var(--purple); border: 1px solid rgba(163,113,247,0.3); }
+  .badge-inplay { background: rgba(63,185,80,0.15); color: var(--green); }
+  .badge-rejected { background: rgba(248,81,73,0.15); color: var(--red); }
+  .badge-signed { background: rgba(63,185,80,0.1); color: var(--green); }
+  .badge-notsigned { background: rgba(110,118,129,0.1); color: var(--text3); }
+
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1000; padding: 20px;
+    backdrop-filter: blur(4px);
+  }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; width: 100%; max-width: 600px;
+    max-height: 90vh; overflow-y: auto;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+  }
+  .modal-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .modal-title { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--text); }
+  .modal-close {
+    background: none; border: none; color: var(--text3);
+    font-size: 20px; cursor: pointer; padding: 4px;
+    line-height: 1; border-radius: 4px;
+  }
+  .modal-close:hover { color: var(--text); background: var(--surface2); }
+  .modal-body { padding: 20px 24px; }
+  .modal-footer {
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    display: flex; gap: 10px; justify-content: flex-end;
+  }
+
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  label { font-size: 12px; font-weight: 500; color: var(--text2); letter-spacing: 0.3px; }
+  .form-control {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 7px; padding: 8px 11px;
+    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 13px;
+    outline: none; transition: border 0.15s; width: 100%;
+  }
+  .form-control:focus { border-color: var(--gold); }
+  textarea.form-control { resize: vertical; min-height: 80px; }
+
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: none; border: none; color: var(--text2);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    cursor: pointer; padding: 4px 0; margin-bottom: 20px;
+    transition: color 0.15s;
+  }
+  .back-btn:hover { color: var(--gold); }
+
+  .deal-header {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px; margin-bottom: 20px;
+  }
+  .deal-title { font-family: 'DM Serif Display', serif; font-size: 26px; margin-bottom: 4px; }
+  .deal-meta { color: var(--text2); font-size: 13px; margin-bottom: 16px; }
+  .deal-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; }
+  .deal-stat-label { font-size: 11px; color: var(--text3); letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 4px; }
+  .deal-stat-value { font-size: 14px; color: var(--text); font-weight: 500; }
+
+  .section-heading {
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--text3);
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .empty { padding: 60px 0; text-align: center; color: var(--text3); font-size: 13px; }
+  .empty-icon { font-size: 32px; margin-bottom: 12px; }
+
+  .loading { padding: 40px 0; text-align: center; color: var(--text3); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner {
+    width: 24px; height: 24px; border: 2px solid var(--border);
+    border-top-color: var(--gold); border-radius: 50%;
+    animation: spin 0.7s linear infinite; margin: 0 auto 12px;
+  }
+
+  .toast {
+    position: fixed; bottom: 24px; right: 24px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 18px;
+    font-size: 13px; z-index: 2000;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    animation: slideUp 0.3s ease;
+  }
+  .toast.success { border-color: rgba(63,185,80,0.5); color: var(--green); }
+  .toast.error { border-color: rgba(248,81,73,0.5); color: var(--red); }
+  @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  .row-count { font-size: 12px; color: var(--text3); margin-left: auto; }
+  .actions-cell { display: flex; gap: 6px; }
+
+  .confirm-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.6);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 1100; backdrop-filter: blur(2px);
+  }
+  .confirm-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 24px; max-width: 380px; width: 90%;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  }
+  .confirm-title { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .confirm-msg { font-size: 13px; color: var(--text2); margin-bottom: 20px; line-height: 1.5; }
+  .confirm-btns { display: flex; gap: 10px; justify-content: flex-end; }
+
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="app"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useEffect, useCallback } = React;
+
+const SUPABASE_URL = 'https://lcetrvbxpyngfxdidiyn.supabase.co';
+const ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxjZXRydmJ4cHluZ2Z4ZGlkaXluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwOTY5NTgsImV4cCI6MjA4OTY3Mjk1OH0.tvpCi6RrDDu16yr-kybZ1ZYAvHso_WgwTZuGrxLNsX8';
+
+const headers = {
+  'apikey': ANON_KEY,
+  'Authorization': `Bearer ${ANON_KEY}`,
+  'Content-Type': 'application/json',
+  'Prefer': 'return=representation'
+};
+
+async function sbFetch(path, options = {}) {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1${path}`, { ...options, headers: { ...headers, ...(options.headers || {}) } });
+  if (!res.ok) { const err = await res.text(); throw new Error(err); }
+  if (res.status === 204) return null;
+  return res.json();
+}
+
+function stageBadge(stage) {
+  const map = { 'Live': 'badge-live', 'Pipeline': 'badge-pipeline', 'Inactive': 'badge-inactive', 'On-Hold': 'badge-hold', 'Completed': 'badge-completed' };
+  return React.createElement('span', { className: `badge ${map[stage] || 'badge-inactive'}` }, stage || '—');
+}
+
+function fundStatusBadge(status) {
+  if (!status || status === 'NaN') return React.createElement('span', { className: 'badge badge-inactive' }, '—');
+  const cls = status.includes('In Play') || status.includes('Offer') ? 'badge-inplay' :
+               status.includes('Rejected') ? 'badge-rejected' :
+               status.includes('Conflicted') ? 'badge-rejected' : 'badge-inactive';
+  return React.createElement('span', { className: `badge ${cls}` }, status);
+}
+
+function feeBadge(fee) {
+  if (!fee || fee === 'NaN' || fee === 'No') return React.createElement('span', { className: 'badge badge-notsigned' }, 'Not Signed');
+  if (fee === 'Signed') return React.createElement('span', { className: 'badge badge-signed' }, '✓ Signed');
+  return React.createElement('span', { className: 'badge badge-hold' }, fee);
+}
+
+function Toast({ msg, type, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 3000); return () => clearTimeout(t); }, []);
+  return React.createElement('div', { className: `toast ${type}` }, msg);
+}
+
+function ConfirmDialog({ title, msg, onConfirm, onCancel }) {
+  return React.createElement('div', { className: 'confirm-overlay' },
+    React.createElement('div', { className: 'confirm-box' },
+      React.createElement('div', { className: 'confirm-title' }, title),
+      React.createElement('div', { className: 'confirm-msg' }, msg),
+      React.createElement('div', { className: 'confirm-btns' },
+        React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: onCancel }, 'Cancel'),
+        React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: onConfirm }, 'Delete')
+      )
+    )
+  );
+}
+
+const DEAL_STAGES = ['Pipeline', 'Live', 'On-Hold', 'Completed', 'Inactive'];
+const DEAL_FIELDS = [
+  { key: 'deal_name', label: 'Deal Name', required: true },
+  { key: 'stage', label: 'Stage', type: 'select', options: DEAL_STAGES },
+  { key: 'sector', label: 'Sector' },
+  { key: 'country', label: 'Country' },
+  { key: 'vol_eurm', label: 'Volume (€m)' },
+  { key: 'deal_captain_name', label: 'Deal Captain' },
+  { key: 'deal_originator', label: 'Deal Originator' },
+  { key: 'deal_type_situation', label: 'Deal Type / Situation' },
+  { key: 'target_company_name', label: 'Target Company', full: true },
+  { key: 'deal_description', label: 'Description', type: 'textarea', full: true },
+  { key: 'next_steps', label: 'Next Steps', type: 'textarea', full: true },
+];
+
+const INV_STATUS_OPTIONS = ['0 - Rejected','1 - Conflicted (do not approach)','2 - Shortlisted','3 - On Hold','4 - Cleared','5 - Contacted','6 - Pending Signed Agreement(s)','7 - In Play','8 - Offer Submitted'];
+const FEE_STATUS_OPTIONS = ['Not Signed','Signed','Deferred (until offer submitted)'];
+const FEE_SIGNED_OPTIONS = ['No','Yes','Fully Executed','Pending - Documents sent'];
+const AGREEMENT_TYPES = ['Master Level','Project Level','Under Discussion'];
+const BUCKET_OPTIONS = ['Bucket 1','Bucket 1a','Bucket 2','Bucket 3'];
+
+function DealModal({ deal, onClose, onSave, showToast }) {
+  const isEdit = !!deal?.id;
+  const [form, setForm] = useState(deal || {});
+  const [saving, setSaving] = useState(false);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const save = async () => {
+    if (!form.deal_name) { showToast('Deal name is required', 'error'); return; }
+    setSaving(true);
+    try {
+      if (isEdit) {
+        const { id, ...rest } = form;
+        await sbFetch(`/deals?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ ...rest, modified_time: new Date().toISOString().split('T')[0] }) });
+      } else {
+        const newId = '5090809000' + Date.now();
+        await sbFetch('/deals', { method: 'POST', body: JSON.stringify({ ...form, id: newId, created_time: new Date().toISOString().split('T')[0], modified_time: new Date().toISOString().split('T')[0] }) });
+      }
+      onSave();
+    } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
+    setSaving(false);
+  };
+
+  return React.createElement('div', { className: 'modal-overlay', onClick: e => e.target === e.currentTarget && onClose() },
+    React.createElement('div', { className: 'modal' },
+      React.createElement('div', { className: 'modal-header' },
+        React.createElement('div', { className: 'modal-title' }, isEdit ? 'Edit Deal' : 'New Deal'),
+        React.createElement('button', { className: 'modal-close', onClick: onClose }, '×')
+      ),
+      React.createElement('div', { className: 'modal-body' },
+        React.createElement('div', { className: 'form-grid' },
+          ...DEAL_FIELDS.map(f =>
+            React.createElement('div', { key: f.key, className: `form-group${f.full ? ' full' : ''}` },
+              React.createElement('label', null, f.label + (f.required ? ' *' : '')),
+              f.type === 'select'
+                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) },
+                    React.createElement('option', { value: '' }, 'Select…'),
+                    ...f.options.map(o => React.createElement('option', { key: o, value: o }, o))
+                  )
+                : f.type === 'textarea'
+                ? React.createElement('textarea', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+                : React.createElement('input', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+            )
+          )
+        )
+      ),
+      React.createElement('div', { className: 'modal-footer' },
+        React.createElement('button', { className: 'btn btn-ghost', onClick: onClose }, 'Cancel'),
+        React.createElement('button', { className: 'btn btn-primary', onClick: save, disabled: saving }, saving ? 'Saving…' : 'Save Deal')
+      )
+    )
+  );
+}
+
+function InvestorModal({ inv, dealId, dealName, funds, onClose, onSave, showToast }) {
+  const isEdit = !!inv?.id;
+  const [form, setForm] = useState(inv ? { ...inv } : { potential_deals_id: dealId, potential_deals_name: dealName, fund_status: '2 - Shortlisted', essa_fee_status: 'Not Signed', fee_agreement_signed: 'No', bucket: 'Bucket 1' });
+  const [saving, setSaving] = useState(false);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const onFundChange = (name) => {
+    const fund = funds.find(f => f.name === name);
+    set('potential_funds_name', name);
+    if (fund) { set('potential_funds_id', fund.id); set('essa_lead_name', fund.essa_relationship_manager_name || ''); }
+  };
+
+  const save = async () => {
+    if (!form.potential_funds_name) { showToast('Fund name is required', 'error'); return; }
+    setSaving(true);
+    try {
+      if (isEdit) {
+        const { id, ...rest } = form;
+        await sbFetch(`/deal_investors?id=eq.${id}`, { method: 'PATCH', body: JSON.stringify({ ...rest, modified_time: new Date().toISOString().split('T')[0] }) });
+      } else {
+        const newId = '5090809000' + Date.now();
+        await sbFetch('/deal_investors', { method: 'POST', body: JSON.stringify({ ...form, id: newId, created_time: new Date().toISOString().split('T')[0], modified_time: new Date().toISOString().split('T')[0] }) });
+      }
+      onSave();
+    } catch (e) { showToast('Save failed: ' + e.message, 'error'); }
+    setSaving(false);
+  };
+
+  const fields = [
+    { key: 'potential_funds_name', label: 'Fund *', full: true, type: isEdit ? 'input' : 'fund-select' },
+    { key: 'essa_lead_name', label: 'ESSA Lead' },
+    { key: 'bucket', label: 'Bucket', type: 'select', options: BUCKET_OPTIONS },
+    { key: 'fund_status', label: 'Fund Status', type: 'select', options: INV_STATUS_OPTIONS },
+    { key: 'essa_fee_status', label: 'ESSA Fee Status', type: 'select', options: FEE_STATUS_OPTIONS },
+    { key: 'fee_agreement_signed', label: 'Fee Agreement Signed', type: 'select', options: FEE_SIGNED_OPTIONS },
+    { key: 'essa_agreement_type', label: 'Agreement Type', type: 'select', options: AGREEMENT_TYPES },
+    { key: 'status_date', label: 'Status Date', type: 'date' },
+    { key: 'investor_contact_name', label: 'Investor Contact' },
+    { key: 'status_information', label: 'Status Information', type: 'textarea', full: true },
+  ];
+
+  return React.createElement('div', { className: 'modal-overlay', onClick: e => e.target === e.currentTarget && onClose() },
+    React.createElement('div', { className: 'modal' },
+      React.createElement('div', { className: 'modal-header' },
+        React.createElement('div', { className: 'modal-title' }, isEdit ? 'Edit Investor' : 'Add Investor'),
+        React.createElement('button', { className: 'modal-close', onClick: onClose }, '×')
+      ),
+      React.createElement('div', { className: 'modal-body' },
+        React.createElement('div', { className: 'form-grid' },
+          ...fields.map(f =>
+            React.createElement('div', { key: f.key, className: `form-group${f.full ? ' full' : ''}` },
+              React.createElement('label', null, f.label),
+              f.type === 'fund-select'
+                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => onFundChange(e.target.value) },
+                    React.createElement('option', { value: '' }, 'Select fund…'),
+                    ...funds.map(fd => React.createElement('option', { key: fd.id, value: fd.name }, fd.name))
+                  )
+                : f.type === 'select'
+                ? React.createElement('select', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) },
+                    ...f.options.map(o => React.createElement('option', { key: o, value: o }, o))
+                  )
+                : f.type === 'textarea'
+                ? React.createElement('textarea', { className: 'form-control', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+                : React.createElement('input', { className: 'form-control', type: f.type || 'text', value: form[f.key] || '', onChange: e => set(f.key, e.target.value) })
+            )
+          )
+        )
+      ),
+      React.createElement('div', { className: 'modal-footer' },
+        React.createElement('button', { className: 'btn btn-ghost', onClick: onClose }, 'Cancel'),
+        React.createElement('button', { className: 'btn btn-primary', onClick: save, disabled: saving }, saving ? 'Saving…' : 'Save')
+      )
+    )
+  );
+}
+
+function DealsView({ onSelectDeal, showToast }) {
+  const [deals, setDeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [stageFilter, setStageFilter] = useState('');
+  const [modal, setModal] = useState(null);
+  const [confirm, setConfirm] = useState(null);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const data = await sbFetch('/deals?select=id,deal_name,stage,sector,country,vol_eurm,deal_captain_name,deal_originator,created_time&order=created_time.desc&limit=500');
+      setDeals(data || []);
+    } catch (e) { showToast('Failed to load deals', 'error'); }
+    setLoading(false);
+  }, []);
+
+  useEffect(() => { load(); }, [load]);
+
+  const filtered = deals.filter(d => {
+    const q = search.toLowerCase();
+    return (!q || [d.deal_name, d.sector, d.country, d.deal_captain_name].some(v => (v||'').toLowerCase().includes(q))) &&
+           (!stageFilter || d.stage === stageFilter);
+  });
+
+  const deleteDeal = async (id) => {
+    try {
+      await sbFetch(`/deals?id=eq.${id}`, { method: 'DELETE' });
+      showToast('Deal deleted', 'success'); load();
+    } catch (e) { showToast('Delete failed', 'error'); }
+    setConfirm(null);
+  };
+
+  return React.createElement(React.Fragment, null,
+    React.createElement('div', { className: 'toolbar' },
+      React.createElement('div', { className: 'search-wrap' },
+        React.createElement('span', { className: 'search-icon' }, '⌕'),
+        React.createElement('input', { placeholder: 'Search deals…', value: search, onChange: e => setSearch(e.target.value) })
+      ),
+      React.createElement('select', { className: 'filter-select', value: stageFilter, onChange: e => setStageFilter(e.target.value) },
+        React.createElement('option', { value: '' }, 'All Stages'),
+        ...DEAL_STAGES.map(s => React.createElement('option', { key: s, value: s }, s))
+      ),
+      React.createElement('span', { className: 'row-count' }, `${filtered.length} deal${filtered.length !== 1 ? 's' : ''}`),
+      React.createElement('button', { className: 'btn btn-primary', onClick: () => setModal('create') }, '+ New Deal')
+    ),
+    React.createElement('div', { className: 'table-wrap' },
+      loading
+        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading deals…')
+        : filtered.length === 0
+        ? React.createElement('div', { className: 'empty' }, React.createElement('div', { className: 'empty-icon' }, '📋'), 'No deals found')
+        : React.createElement('table', null,
+            React.createElement('thead', null,
+              React.createElement('tr', null,
+                ['Deal Name','Stage','Sector','Country','Vol €m','Deal Captain','Created','Actions'].map(h =>
+                  React.createElement('th', { key: h }, h)
+                )
+              )
+            ),
+            React.createElement('tbody', null,
+              filtered.map(d =>
+                React.createElement('tr', { key: d.id, className: 'clickable', onClick: () => onSelectDeal(d) },
+                  React.createElement('td', { style: { fontWeight: 500, color: 'var(--gold)' } }, d.deal_name || '—'),
+                  React.createElement('td', null, stageBadge(d.stage)),
+                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.sector || '—'),
+                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.country || '—'),
+                  React.createElement('td', { className: 'mono' }, d.vol_eurm && d.vol_eurm !== 'NaN' ? `€${d.vol_eurm}m` : '—'),
+                  React.createElement('td', { style: { color: 'var(--text2)' } }, d.deal_captain_name || '—'),
+                  React.createElement('td', { className: 'mono', style: { color: 'var(--text3)' } }, d.created_time ? d.created_time.slice(0, 10) : '—'),
+                  React.createElement('td', { onClick: e => e.stopPropagation() },
+                    React.createElement('div', { className: 'actions-cell' },
+                      React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setModal(d) }, 'Edit'),
+                      React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: () => setConfirm(d) }, 'Delete')
+                    )
+                  )
+                )
+              )
+            )
+          )
+    ),
+    (modal === 'create' || (modal && modal.id)) &&
+      React.createElement(DealModal, { deal: modal === 'create' ? null : modal, onClose: () => setModal(null), onSave: () => { setModal(null); load(); showToast('Deal saved', 'success'); }, showToast }),
+    confirm &&
+      React.createElement(ConfirmDialog, { title: 'Delete Deal', msg: `Delete "${confirm.deal_name}"? This cannot be undone.`, onConfirm: () => deleteDeal(confirm.id), onCancel: () => setConfirm(null) })
+  );
+}
+
+function DealDetailView({ deal, onBack, showToast }) {
+  const [investors, setInvestors] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [funds, setFunds] = useState([]);
+  const [modal, setModal] = useState(null);
+  const [confirm, setConfirm] = useState(null);
+  const [editDeal, setEditDeal] = useState(false);
+  const [dealData, setDealData] = useState(deal);
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [invData, fundData] = await Promise.all([
+        sbFetch(`/deal_investors?potential_deals_id=eq.${deal.id}&order=bucket.asc,fund_status.asc`),
+        sbFetch('/counterparts?select=id,name,essa_relationship_manager_name&counterpart_type=eq.Investor&order=name.asc&limit=600')
+      ]);
+      setInvestors(invData || []);
+      setFunds(fundData || []);
+    } catch (e) { showToast('Failed to load', 'error'); }
+    setLoading(false);
+  }, [deal.id]);
+
+  useEffect(() => { load(); }, [load]);
+
+  const deleteInvestor = async (id) => {
+    try {
+      await sbFetch(`/deal_investors?id=eq.${id}`, { method: 'DELETE' });
+      showToast('Investor removed', 'success'); load();
+    } catch (e) { showToast('Delete failed', 'error'); }
+    setConfirm(null);
+  };
+
+  const stats = [
+    ['Volume', dealData.vol_eurm && dealData.vol_eurm !== 'NaN' ? `€${dealData.vol_eurm}m` : '—'],
+    ['Deal Captain', dealData.deal_captain_name || '—'],
+    ['Originator', dealData.deal_originator || '—'],
+    ['Type', dealData.deal_type_situation || '—'],
+    ['Created', dealData.created_time ? dealData.created_time.slice(0,10) : '—'],
+    ['Target', dealData.target_company_name || '—'],
+  ];
+
+  return React.createElement(React.Fragment, null,
+    React.createElement('button', { className: 'back-btn', onClick: onBack }, '← Back to Deals'),
+    React.createElement('div', { className: 'deal-header' },
+      React.createElement('div', { style: { display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16 } },
+        React.createElement('div', null,
+          React.createElement('div', { className: 'deal-title' }, dealData.deal_name),
+          React.createElement('div', { className: 'deal-meta' }, `${dealData.sector || '—'} · ${dealData.country || '—'}`)
+        ),
+        React.createElement('div', { style: { display:'flex', gap:8, alignItems:'center', flexShrink:0 } },
+          stageBadge(dealData.stage),
+          React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setEditDeal(true) }, 'Edit Deal')
+        )
+      ),
+      React.createElement('div', { className: 'deal-grid' },
+        ...stats.map(([l, v]) =>
+          React.createElement('div', { key: l },
+            React.createElement('div', { className: 'deal-stat-label' }, l),
+            React.createElement('div', { className: 'deal-stat-value' }, v)
+          )
+        )
+      ),
+      dealData.next_steps && dealData.next_steps !== 'NaN' &&
+        React.createElement('div', { style: { marginTop:16, paddingTop:16, borderTop:'1px solid var(--border)' } },
+          React.createElement('div', { className: 'deal-stat-label' }, 'Next Steps'),
+          React.createElement('div', { style: { marginTop:4, fontSize:13, color:'var(--text2)', lineHeight:1.6 } }, dealData.next_steps)
+        )
+    ),
+    React.createElement('div', { style: { display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12 } },
+      React.createElement('div', { className: 'section-heading', style: { margin:0 } }, `Investors (${investors.length})`),
+      React.createElement('button', { className: 'btn btn-primary btn-sm', onClick: () => setModal('create') }, '+ Add Investor')
+    ),
+    React.createElement('div', { className: 'table-wrap' },
+      loading
+        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading…')
+        : investors.length === 0
+        ? React.createElement('div', { className: 'empty' }, React.createElement('div', { className: 'empty-icon' }, '👥'), 'No investors linked yet')
+        : React.createElement('table', null,
+            React.createElement('thead', null,
+              React.createElement('tr', null,
+                ['Fund','ESSA Lead','Bucket','Status','Fee Agreement','Agreement Type','Status Date','Actions'].map(h =>
+                  React.createElement('th', { key: h }, h)
+                )
+              )
+            ),
+            React.createElement('tbody', null,
+              investors.map(inv =>
+                React.createElement('tr', { key: inv.id },
+                  React.createElement('td', { style: { fontWeight:500 } }, inv.potential_funds_name || '—'),
+                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, inv.essa_lead_name && inv.essa_lead_name !== 'NaN' ? inv.essa_lead_name : '—'),
+                  React.createElement('td', { style: { color:'var(--text3)', fontSize:12 } }, inv.bucket || '—'),
+                  React.createElement('td', null, fundStatusBadge(inv.fund_status)),
+                  React.createElement('td', null, feeBadge(inv.essa_fee_status)),
+                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, inv.essa_agreement_type && inv.essa_agreement_type !== 'NaN' ? inv.essa_agreement_type : '—'),
+                  React.createElement('td', { className: 'mono', style: { color:'var(--text3)' } }, inv.status_date && inv.status_date !== 'NaN' ? inv.status_date : '—'),
+                  React.createElement('td', null,
+                    React.createElement('div', { className: 'actions-cell' },
+                      React.createElement('button', { className: 'btn btn-ghost btn-sm', onClick: () => setModal(inv) }, 'Edit'),
+                      React.createElement('button', { className: 'btn btn-danger btn-sm', onClick: () => setConfirm(inv) }, 'Remove')
+                    )
+                  )
+                )
+              )
+            )
+          )
+    ),
+    (modal === 'create' || (modal && modal.id)) &&
+      React.createElement(InvestorModal, { inv: modal === 'create' ? null : modal, dealId: deal.id, dealName: dealData.deal_name, funds, onClose: () => setModal(null), onSave: () => { setModal(null); load(); showToast('Investor saved', 'success'); }, showToast }),
+    editDeal &&
+      React.createElement(DealModal, { deal: dealData, onClose: () => setEditDeal(false), onSave: async () => {
+        setEditDeal(false);
+        const updated = await sbFetch(`/deals?id=eq.${deal.id}&select=*`);
+        if (updated?.[0]) setDealData(updated[0]);
+        showToast('Deal updated', 'success');
+      }, showToast }),
+    confirm &&
+      React.createElement(ConfirmDialog, { title: 'Remove Investor', msg: `Remove ${confirm.potential_funds_name} from this deal?`, onConfirm: () => deleteInvestor(confirm.id), onCancel: () => setConfirm(null) })
+  );
+}
+
+function CounterpartsView({ showToast }) {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
+  const [typeFilter, setTypeFilter] = useState('');
+
+  useEffect(() => {
+    sbFetch('/counterparts?select=id,name,counterpart_type,essa_relationship_manager_name,strinvma,master_agreement_expiry_date,total_fee_agreements,strmatrusted&order=name.asc&limit=600')
+      .then(d => setData(d || []))
+      .catch(() => showToast('Failed to load', 'error'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const types = [...new Set(data.map(d => d.counterpart_type).filter(Boolean))].sort();
+  const filtered = data.filter(d => {
+    const q = search.toLowerCase();
+    return (!q || (d.name||'').toLowerCase().includes(q) || (d.essa_relationship_manager_name||'').toLowerCase().includes(q)) &&
+           (!typeFilter || d.counterpart_type === typeFilter);
+  });
+
+  return React.createElement(React.Fragment, null,
+    React.createElement('div', { className: 'toolbar' },
+      React.createElement('div', { className: 'search-wrap' },
+        React.createElement('span', { className: 'search-icon' }, '⌕'),
+        React.createElement('input', { placeholder: 'Search counterparts…', value: search, onChange: e => setSearch(e.target.value) })
+      ),
+      React.createElement('select', { className: 'filter-select', value: typeFilter, onChange: e => setTypeFilter(e.target.value) },
+        React.createElement('option', { value: '' }, 'All Types'),
+        ...types.map(t => React.createElement('option', { key: t, value: t }, t))
+      ),
+      React.createElement('span', { className: 'row-count' }, `${filtered.length} records`)
+    ),
+    React.createElement('div', { className: 'table-wrap' },
+      loading
+        ? React.createElement('div', { className: 'loading' }, React.createElement('div', { className: 'spinner' }), 'Loading…')
+        : React.createElement('table', null,
+            React.createElement('thead', null,
+              React.createElement('tr', null,
+                ['Name','Type','ESSA Relationship Manager','Master Agreement','MA Expiry','Fee Agreements','Trusted'].map(h =>
+                  React.createElement('th', { key: h }, h)
+                )
+              )
+            ),
+            React.createElement('tbody', null,
+              filtered.map(d =>
+                React.createElement('tr', { key: d.id },
+                  React.createElement('td', { style: { fontWeight:500 } }, d.name || '—'),
+                  React.createElement('td', null, React.createElement('span', { className: 'badge badge-pipeline', style: { fontSize:11 } }, d.counterpart_type || '—')),
+                  React.createElement('td', { style: { color:'var(--text2)', fontSize:12 } }, d.essa_relationship_manager_name || '—'),
+                  React.createElement('td', null, d.strinvma === 'Signed' ? React.createElement('span', { className: 'badge badge-signed' }, '✓ Signed') : React.createElement('span', { className: 'badge badge-notsigned' }, d.strinvma || '—')),
+                  React.createElement('td', { className: 'mono', style: { color: d.master_agreement_expiry_date && d.master_agreement_expiry_date < '2026-06-01' ? 'var(--orange)' : 'var(--text3)', fontSize:12 } }, d.master_agreement_expiry_date || '—'),
+                  React.createElement('td', { className: 'mono', style: { textAlign:'center' } }, d.total_fee_agreements || '—'),
+                  React.createElement('td', null, d.strmatrusted === 'Yes' ? React.createElement('span', { style: { color:'var(--green)' } }, '✓') : React.createElement('span', { style: { color:'var(--text3)' } }, '—'))
+                )
+              )
+            )
+          )
+    )
+  );
+}
+
+function App() {
+  const [tab, setTab] = useState('deals');
+  const [selectedDeal, setSelectedDeal] = useState(null);
+  const [toastMsg, setToastMsg] = useState(null);
+  const showToast = (msg, type = 'success') => setToastMsg({ msg, type, key: Date.now() });
+
+  return React.createElement(React.Fragment, null,
+    React.createElement('div', { className: 'header' },
+      React.createElement('div', { className: 'logo' }, 'ESSA ', React.createElement('span', null, 'Deal Management')),
+      React.createElement('nav', { className: 'nav' },
+        React.createElement('button', { className: `nav-btn ${tab === 'deals' ? 'active' : ''}`, onClick: () => { setTab('deals'); setSelectedDeal(null); } }, 'Deals'),
+        React.createElement('button', { className: `nav-btn ${tab === 'counterparts' ? 'active' : ''}`, onClick: () => { setTab('counterparts'); setSelectedDeal(null); } }, 'Counterparts')
+      )
+    ),
+    React.createElement('div', { className: 'main' },
+      tab === 'deals' && !selectedDeal && React.createElement(DealsView, { onSelectDeal: d => setSelectedDeal(d), showToast }),
+      tab === 'deals' && selectedDeal && React.createElement(DealDetailView, { deal: selectedDeal, onBack: () => setSelectedDeal(null), showToast }),
+      tab === 'counterparts' && React.createElement(CounterpartsView, { showToast })
+    ),
+    toastMsg && React.createElement(Toast, { key: toastMsg.key, msg: toastMsg.msg, type: toastMsg.type, onDone: () => setToastMsg(null) })
+  );
+}
+
+ReactDOM.render(React.createElement(App), document.getElementById('app'));
+</script>
+</body>
+</html>
